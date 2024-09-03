@@ -28,5 +28,6 @@ int main()
       printf("%d ", a[i]);
    }
    printf("\n%d - %d = %d", max, min, max - min);
+   free(a);
    return 0;
 }
