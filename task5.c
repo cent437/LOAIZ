@@ -1,45 +1,56 @@
 #include <stdio.h>
 #include <malloc.h>
 #include <stdint.h>
-
+/*
+   Определение структуры на 3 записи {имя, фамилия, специальность}
+*/
 struct student
 {
-   int8_t name[255];
-   int8_t surname[255];
+   int8_t name[255], surname[255];
    int16_t major;
-   int32_t* next;
-};
+}stud[3];
 
 int main()
 {
-   int32_t n = 0;
-   puts("Enter the size of the database: ");
-   scanf("%d", &n);
-   struct student* s1 = (struct student*)malloc(sizeof(struct student));
-   puts("Name: ");
-   scanf("%s", s1->name);
-   
-   puts("Surname: ");
-   scanf("%s", s1->surname);
-   
-   puts("Number of the major: ");
-   scanf("%d", &s1->major);
-   for (int i = 0; i < n; i++)
+   struct student s1;
+   for (int32_t i = 0; i < 3; i++)
    {
-      s1->next = (struct student*)malloc(sizeof(struct student));
-      puts("Name: ");
-      scanf("%s", s1->name);
-   
-      puts("Surname: ");
-      scanf("%s", s1->surname);
-   
-      puts("Number of the major: ");
-      scanf("%d", &s1->major);
+      puts("Enter student's name: ");
+      scanf("%s", stud[i].name);
+      rewind(stdin); // Очистка буфера scanf
+      puts("Enter student's surname: ");
+      scanf("%s", stud[i].surname);
+      rewind(stdin);
+      puts("Enter student's major: ");
+      scanf("%d", &stud[i].major);
+      rewind(stdin);
    }
-   s1->next = NULL;
-   for (;s1->next != NULL ;)
+   for (int i = 0; i < 3; i++)
    {
-      printf("\t|%s|\t|%s|\t|%d|\n", s1->name, s1->surname, s1->major);
+      printf("%s\t%s\t%d\n", stud[i].name, stud[i].surname, stud[i].major);
    }
+   for (int n; n != 0; )
+   {
+      puts("1 - Search by name.\n");
+      puts("2 - Search by surname.\n");
+      puts("3 - Search by the major.\n");
+      scanf("%d", &n);
+      switch (n)
+      {
+      case 1:
+         char name[255] = "";
+         puts("Enter student's name: ");
+            
+         break;
+      
+      default:
+         break;
+      }
+   }
+   
+   
+   
+   
+   
    return 0;
 }
