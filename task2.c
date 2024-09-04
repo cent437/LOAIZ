@@ -1,12 +1,13 @@
 #include <stdio.h>
 #include <time.h>
 #include <stdlib.h>
+#include <stdint.h>
 
 int main()
 {
-   int a[10], min = 0, max = 0;
+   int32_t a[10], min = 0, max = 0;
    srand(time(NULL));
-   for (int i = 0; i < 10; i++)
+   for (int32_t i = 0; i < 10; i++)
    {
       a[i] = rand() % 50 - 25;
       if (a[i] > max)

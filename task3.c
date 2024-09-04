@@ -2,10 +2,11 @@
 #include <stdlib.h>
 #include <time.h>
 #include <limits.h>
+#include <stdint.h>
 
 int main()
 {
-   int n;
+   int32_t n;
    printf("Enter the array size: ");
    scanf("%d", &n);
    if (n >= INT_MAX)
@@ -14,9 +15,9 @@ int main()
       return 0;
    }
    
-   int* a = (int*) malloc(n * sizeof(int));
+   int32_t* a = (int32_t*) malloc(n * sizeof(int32_t));
    
-   int min = 0, max = 0;
+   int32_t min = 0, max = 0;
    srand(time(NULL));
    for (int i = 0; i < n; i++)
    {
