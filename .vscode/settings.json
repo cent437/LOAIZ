@@ -2,6 +2,8 @@
    "files.associations": {
       "stdio.h": "c",
       "stdlib.h": "c",
-      "limits.h": "c"
+      "limits.h": "c",
+      "compare": "c",
+      "stdint.h": "c"
    }
 }

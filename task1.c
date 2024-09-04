@@ -1,9 +1,10 @@
 #include <stdio.h>
+#include <stdint.h>
 int main()
 {
-   int a[10] = {5, 12, -1, 6, 16, -3, 51, 95, -8, 12}, min = 0, max = 0;
-   int* p_a = a;
-   for (int i = 0; i < 10; i++)
+   int32_t a[10] = {5, 12, -1, 6, 16, -3, 51, 95, -8, 12}, min = 0, max = 0;
+   int32_t* p_a = a;
+   for (int32_t i = 0; i < 10; i++)
    {
       if (*p_a > max)
          max = *p_a;

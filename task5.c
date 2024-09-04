@@ -1,16 +1,18 @@
 #include <stdio.h>
 #include <malloc.h>
+#include <stdint.h>
+
 struct student
 {
-   char name[255];
-   char surname[255];
-   short major;
-   int* next;
+   int8_t name[255];
+   int8_t surname[255];
+   int16_t major;
+   int32_t* next;
 };
 
 int main()
 {
-   int n = 0;
+   int32_t n = 0;
    puts("Enter the size of the database: ");
    scanf("%d", &n);
    struct student* s1 = (struct student*)malloc(sizeof(struct student));
