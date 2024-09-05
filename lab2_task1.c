@@ -15,7 +15,7 @@ int main(void)
 	{
 		while(j<200)
 		{
-			a[i][j]=rand()% 100 + 1; // заполняем массив случайными числами
+			a[i][j]=rand()% 100 + 1; // заполняем массив случайными числами // O(1)
 			j++;
 		}	// O(n)
 		i++;
@@ -44,6 +44,7 @@ int main(void)
 			} // O(n)
 		}	// O(n*n)
 	} 		// O(n^3)
+	// O(2 * O(n^2), O(n^3))
 	end = clock();
 	printf("Time of matrix multiplication: %lf sec.", (end - start) / 1000);
    
