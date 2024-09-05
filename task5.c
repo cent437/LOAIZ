@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdint.h>
+#include <iso646.h>
 /*
    Определение структуры на 3 записи {имя, фамилия, специальность}
 */
@@ -15,15 +16,9 @@ int main()
    struct student s1;
    for (int32_t i = 0; i < 3; i++)
    {
-      puts("Enter student's name: ");
-      scanf("%s", stud[i].name);
+      puts("Enter student's name, surname and major number: ");
+      scanf("%s %s %d", stud[i].name, stud[i].surname, &stud[i].major);
       rewind(stdin); // Очистка буфера scanf
-      puts("Enter student's surname: ");
-      scanf("%s", stud[i].surname);
-      rewind(stdin);
-      puts("Enter student's major: ");
-      scanf("%d", &stud[i].major);
-      rewind(stdin);
    }
    for (int i = 0; i < 3; i++)
    {
@@ -31,9 +26,7 @@ int main()
    }
    for (int n; n != 0; )
    {
-      puts("1 - Search by name.");
-      puts("2 - Search by surname.");
-      puts("3 - Search by the major.");
+      puts("1 - Begin search.");
       puts("0 - Exit.");
       puts("> ");
       scanf("%d", &n);
@@ -44,40 +37,19 @@ int main()
          break;
       case 1:
          int8_t name[20] = "";
-         puts("Enter student's name: ");
-         scanf("%s", name);
-         rewind(stdin);
-         for (int i = 0; i < 3; i++)
-         {
-            if (strcmp(name, stud[i].name));
-            {
-               printf("%s\t%s\t%d\n", stud[i].name, stud[i].surname, stud[i].major);
-            }
-         }
-         break;
-      case 2:
          int8_t surname[20] = "";
-         puts("Enter student's name: ");
-         scanf("%s", name);
-         rewind(stdin);
+         int16_t major;
+         puts("Enter student's name, surname and major number: ");
+         scanf("%s %s %d", name, surname, &major);
          for (int i = 0; i < 3; i++)
          {
-            if (strcmp(surname, stud[i].surname));
+            if (strcmp(stud[i].name, name) and strcmp(stud[i].surname, surname) and stud[i].major == major)
             {
                printf("%s\t%s\t%d\n", stud[i].name, stud[i].surname, stud[i].major);
             }
-         }
-         break;
-      case 3:
-         int16_t major;
-         puts("Enter student's major number: ");
-         scanf("%d", &major);
-         rewind(stdin);
-         for (int i = 0; i < 3; i++)
-         {
-            if (major == stud[i].major);
+            else
             {
-               printf("%s\t%s\t%d\n", stud[i].name, stud[i].surname, stud[i].major);
+               break;
             }
          }
          break;

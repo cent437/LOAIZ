@@ -9,11 +9,18 @@
          "type": "cppvsdbg",
          "request": "launch",
          "program": "${workspaceFolder}/a.exe",
-         "args": [],
+         "args": ["-o"],
          "stopAtEntry": false,
          "cwd": "${fileDirname}",
          "environment": [],
          "console": "externalTerminal"
+      },
+      
+      {
+         "processId":"${command:pickProcess}",
+         "name": "(Windows) Attach",
+         "type": "cppvsdbg",
+         "request": "attach"
       }
    ]
 }
