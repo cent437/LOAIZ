@@ -14,13 +14,8 @@
          "cwd": "${fileDirname}",
          "environment": [],
          "console": "externalTerminal"
-      },
-      
-      {
-         "processId":"${command:pickProcess}",
-         "name": "(Windows) Attach",
-         "type": "cppvsdbg",
-         "request": "attach"
+         
       }
+      
    ]
 }
