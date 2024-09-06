@@ -1,12 +1,14 @@
 #include <stdio.h>
-#include <malloc.h>
+#include <iso646.h>
 #include <stdint.h>
+#include <string.h>
+
 /*
    Определение структуры на 3 записи {имя, фамилия, специальность}
 */
 struct student
 {
-   int8_t name[255], surname[255];
+   int8_t name[20], surname[20];
    int16_t major;
 }stud[3];
 
@@ -15,15 +17,10 @@ int main()
    struct student s1;
    for (int32_t i = 0; i < 3; i++)
    {
-      puts("Enter student's name: ");
-      scanf("%s", stud[i].name);
+      puts("Enter student's name, surname and major: ");
+      scanf("%s %s %d", stud[i].name, stud[i].surname, stud[i].major);
       rewind(stdin); // Очистка буфера scanf
-      puts("Enter student's surname: ");
-      scanf("%s", stud[i].surname);
-      rewind(stdin);
-      puts("Enter student's major: ");
-      scanf("%d", &stud[i].major);
-      rewind(stdin);
+      
    }
    for (int i = 0; i < 3; i++)
    {
@@ -31,23 +28,30 @@ int main()
    }
    for (int n; n != 0; )
    {
-      puts("1 - Search by name.\n");
-      puts("2 - Search by surname.\n");
-      puts("3 - Search by the major.\n");
+      puts("1 - Begin search.\n");
+      puts("0 - Exit.\n> ");
       scanf("%d", &n);
       switch (n)
       {
       case 1:
-         char name[255] = "";
-         puts("Enter student's name: ");
+         int8_t name[20] = "";
+         int8_t surname[20] = "";
+         int16_t major;
+         puts("Enter student's name, surname and major: ");
+         scanf("%s %s %d",name, surname, &major);
+         for (int i = 0; i < 3; i++)
+         {
+            if (strcmp(name, stud[i].name) == 0 and strcmp(surname, stud[i].surname) == 0 and major == stud[i].major)
+            {
+               printf("%s\t%s\t%d\n", stud[i].name, stud[i].surname, stud[i].major);
+            }
             
-         break;
-      
-      default:
+         }
+          
          break;
       }
    }
-   
+   puts("Exiting.\n> ");
    
    
    
