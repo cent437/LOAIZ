@@ -9,13 +9,11 @@
          "type": "cppvsdbg",
          "request": "launch",
          "program": "${workspaceFolder}/a.exe",
-         "args": ["-o"],
+         "args": [],
          "stopAtEntry": false,
          "cwd": "${fileDirname}",
          "environment": [],
          "console": "externalTerminal"
-         
       }
-      
    ]
 }
