@@ -1,17 +1,17 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
-
+#define MATRIX_SIZE 1000
 int main()
 {
 	double start = 0, stop = 0;
 	int i = 0, j = 0, r = 0;
-	int a[1000][1000], b[1000][1000], c[1000][1000], elem_c;
+	int a[MATRIX_SIZE][MATRIX_SIZE], b[MATRIX_SIZE][MATRIX_SIZE], c[MATRIX_SIZE][MATRIX_SIZE], elem_c;
 	srand(time(NULL));
 	start = clock();
-	while (i < 1000)
+	while (i < MATRIX_SIZE)
 	{
-		while (j < 1000)
+		while (j < MATRIX_SIZE)
 		{
 			a[i][j] = rand() % 100 + 1;
 			j++;
@@ -20,20 +20,20 @@ int main()
 	}
 	srand(time(NULL));
 	i = 0, j = 0;
-	while (i < 1000)
+	while (i < MATRIX_SIZE)
 	{
-		while (j < 1000)
+		while (j < MATRIX_SIZE)
 		{
 			b[i][j] = rand() % 100 + 1;
 			j++;
 		}
 		i++;
 	}
-	for (i = 0; i < 1000; i++)
+	for (i = 0; i < MATRIX_SIZE; i++)
 	{
-		for (j = 0; j < 1000; j++)
+		for (j = 0; j < MATRIX_SIZE; j++)
 		{
-			for ( r = 0; r < 1000; r++)
+			for ( r = 0; r < MATRIX_SIZE; r++)
 			{
 				elem_c = elem_c + a[i][r] * b[i][r];
 				c[i][j] = elem_c;
@@ -43,6 +43,6 @@ int main()
 		
 	}
 	stop = clock();
-	printf("Time of matrix multiply: %lf sec.\n", (stop - start) / 1000);
+	printf("Time of matrix multiply: %lf sec.\n", (stop - start) / MATRIX_SIZE);
 	return 0;	
 }
