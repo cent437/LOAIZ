@@ -4,7 +4,7 @@
 #define MATRIX_SIZE 1000
 int main()
 {
-	double start = 0, stop = 0;
+	clock_t start = 0, stop = 0;
 	int i = 0, j = 0, r = 0;
 	int a[MATRIX_SIZE][MATRIX_SIZE], b[MATRIX_SIZE][MATRIX_SIZE], c[MATRIX_SIZE][MATRIX_SIZE], elem_c;
 	srand(time(NULL));
@@ -43,6 +43,6 @@ int main()
 		
 	}
 	stop = clock();
-	printf("Time of matrix multiply: %lf sec.\n", (stop - start) / MATRIX_SIZE);
+	printf("Time of matrix multiply: %lf sec.\n", (stop - start) / CLOCKS_PER_SEC);
 	return 0;	
 }
