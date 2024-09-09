@@ -2,20 +2,45 @@
 #include <stdlib.h>
 #include <stdint.h>
 #include <time.h>
+
+
 typedef struct list
 {
    int data;
    struct list *next;
 }l;
 
+l* create_list(int n);
+void print_list(l* p_begin);
+void delete_list(l* p_begin);
+
+
+
+
+int main()
+{
+   clock_t start, stop;
+   start = clock();
+   l* p_begin = create_list(10000);
+   stop = clock();
+   printf("%ld", stop - start);
+   //print_list(p_begin);
+   delete_list(p_begin);
+   return 0;
+}
+
+
+
+
+
 l* create_list(int n)
 {
-   l* p_begin = NULL;
+   l* head = NULL;
    l* p = NULL;
    
    // Заполнение списка
-   p_begin = (l*)malloc(sizeof(l));
-   p = p_begin;
+   head = (l*)malloc(sizeof(l));
+   p = head;
    p->next = NULL;
    p->data = 0;
    
@@ -26,7 +51,7 @@ l* create_list(int n)
       p->next = NULL;
       p->data = i;
    }
-   return p_begin;
+   return head;
 }
 void print_list(l* p_begin)
 {
@@ -48,16 +73,4 @@ void delete_list(l* p_begin)
       free(tmp);
    }
    
-}
-
-int main()
-{
-   clock_t start, stop;
-   start = clock();
-   l* p_begin = create_list(10000);
-   stop = clock();
-   printf("%ld", stop - start);
-   //print_list(p_begin);
-   delete_list(p_begin);
-   return 0;
 }
