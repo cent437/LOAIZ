@@ -1,0 +1,9 @@
+0) Time of shell (random): 0.000000
+0) Time of qs (random): 0.000000
+0) Time of qsort() (random): 0.000000
+1) Time of shell (inc): 0.000000
+1) Time of qs (inc): 0.001000
+1) Time of qsort() (inc): 0.001000
+2) Time of shell (decr): 0.027000
+2) Time of qs (decr): 0.044000
+2) Time of qsort() (decr): 0.106000
