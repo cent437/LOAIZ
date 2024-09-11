@@ -10,20 +10,16 @@ typedef struct list
    struct list *next;
 }l;
 
-l* create_list(int n);
+l* push_back(int n);
+l* push_front(int n);
 void print_list(l* p_begin);
 void delete_list(l* p_begin);
 
 
-
-
 int main()
 {
-   clock_t start, stop;
-   start = clock();
-   l* p_begin = create_list(10000);
-   stop = clock();
-   printf("%ld", stop - start);
+   
+   l* p_begin = push_back(10);
    //print_list(p_begin);
    delete_list(p_begin);
    return 0;
@@ -32,8 +28,11 @@ int main()
 
 
 
-
-l* create_list(int n)
+l* push_front(int n)
+{
+   
+}
+l* push_back(int n)
 {
    l* head = NULL;
    l* p = NULL;
