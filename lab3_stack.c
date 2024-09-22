@@ -10,20 +10,20 @@ typedef struct node
 node *head = NULL, *last = NULL, *f = NULL; // указатели на первый и последний элементы списка
 int dlinna = 0;
 
-struct node* get_struct(void)
+node* get_struct(void)
 {
    node *p = NULL;
    char s[256];
    if ((p = (node*)malloc(sizeof(node))) == NULL) // выделяем память под новый элемент списка
    {
-      printf("Ошибка при распределении памяти\n");
+      printf("Error allocating memory\n");
       exit(1);
    }
-      printf("Введите название объекта: \n"); // вводим данные
+      printf("Enter object name: \n"); // вводим данные
       scanf("%s", s);
    if (*s == 0)
    {
-      printf("Запись не была произведена\n");
+      printf("The recording wasn't made\n");
       return NULL;
    }
    strcpy(p->inf, s);
@@ -34,7 +34,7 @@ struct node* get_struct(void)
 
 void push(void)
 {
-   struct node *p = NULL;
+   node *p = NULL;
    p = get_struct();
    if (head == NULL && p != NULL) // если списка нет, то устанавливаем голову списка
    {
@@ -53,7 +53,7 @@ void print(void)
    node *struc = head;
    if (head == NULL)
    {
-      puts("Стек пуст.");
+      puts("Stack is empty.");
    }
    printf("->\t");
    while (struc)
@@ -67,14 +67,15 @@ void print(void)
 /*Удаление элемента в конце очереди*/
 void pop(void)
 {
-   struct node *struc = last; // указатель, проходящий по очереди установлен на начало списка
-   struct node *prev;// указатель на предшествующий удаляемому элемент
-   
+   node *struc = last; // указатель, проходящий по очереди установлен на начало списка
+   node* prev;
+   prev = struc;
+   struc = struc->next;
    if (struc == NULL) // если голова списка равна NULL, то список пуст
       return;
    prev->next = NULL;
    free(struc); // удаляем последний элемент
-   last = prev->next; 
+   //struc = last; 
 }
 
 
@@ -82,17 +83,17 @@ int main()
 {
    setlocale(LC_ALL, "ru_RU.UTF-8");
    int n;
-   puts("Введите размер стека:");
+   puts("Enter stack size:");
    scanf("%d", &n);
    rewind(stdin);
    for (int i = 0; i < n; i++)
    {
       push();
    }
-   puts("Стек заполнен.");
+   puts("Stack is full.");
    print();
-   puts("\n1. Удалить");
-   puts("0. Завершить");
+   puts("\n1. Delete");
+   puts("0. Finish");
    
    while(n != 0)
    {
@@ -102,8 +103,8 @@ int main()
          pop();
 
       print();   
-      puts("\n1. Удалить");
-      puts("0. Завершить");
+      puts("\n1. Delete");
+      puts("0. Finish");
    }
 
    return 0;

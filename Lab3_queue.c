@@ -16,14 +16,14 @@ struct node* get_struct(void)
    char s[256];
    if ((p = (node*)malloc(sizeof(node))) == NULL) // выделяем память под новый элемент списка
    {
-      printf("Ошибка при распределении памяти\n");
+      puts("Error allocating memory");
       exit(1);
    }
-      printf("Введите название объекта: \n"); // вводим данные
-      scanf("%s", s);
+   puts("Enter object name:"); // вводим данные
+   scanf("%s", s);
    if (*s == 0)
    {
-      printf("Запись не была произведена\n");
+      puts("The recording wasn't made"); // вводим данные
       return NULL;
    }
    strcpy(p->inf, s);
@@ -53,7 +53,7 @@ void print(void)
    node *struc = head;
    if (head == NULL)
    {
-      puts("Очередь пуста.");
+      puts("Queue is empty.");
    }
    printf("->\t");
    while (struc)
@@ -81,17 +81,17 @@ int main()
 {
    setlocale(LC_ALL, "ru_RU.UTF-8");
    int n;
-   puts("Введите размер очереди:");
+   puts("Enter queue size:");
    scanf("%d", &n);
    rewind(stdin);
    for (int i = 0; i < n; i++)
    {
       push();
    }
-   puts("Очередь заполнена.");
+   puts("Queue is full.");
    print();
-   puts("\n1. Удалить");
-   puts("0. Завершить");
+   puts("\n1. Delete");
+   puts("0. Finish");
    
    while(n != 0)
    {
@@ -101,8 +101,8 @@ int main()
          pop();
 
       print();   
-      puts("\n1. Удалить");
-      puts("0. Завершить");
+      puts("\n1. Delete");
+      puts("0. Finish");
    }
 
    return 0;
