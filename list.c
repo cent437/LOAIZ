@@ -53,13 +53,23 @@ void pop_back()
 {
   node *p = head;
   node *prv;
-  while (p != tail)
+  if (head == NULL) // Если список пуст, возвращаемся
+    return;
+  while (p != tail) // Проход до последнего элемента списка с отслеживанием предпоследнего
   {
-    prv = p;
+    prv = p;  
     p = p->next;
+  }
+  
+  if (head == tail) // Проверка на то, что в списке 1 элемент
+  {
+    head = NULL; // Обнуляем голову и хвост
+    tail = NULL;
+    return;
   }
   free(p);
   prv->next = NULL;
+  tail = prv;
   return;
 }
 void pop_front()
@@ -148,8 +158,8 @@ int main()
      print();
      puts("\n1. Add to begin");
      puts("2. Add to end");
-     puts("3. Delete first element");
-     puts("4. Delete last element");
+     puts("3. Delete last element");
+     puts("4. Delete first element");
      puts("0. Stop");
      scanf("%d", &n);
      rewind(stdin);
