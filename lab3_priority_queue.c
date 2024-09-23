@@ -38,8 +38,9 @@ void push()
 {
   node *p = NULL;
   node *prv = NULL;
+  node *tmp = NULL;
   node *nxt = NULL;
-  p = create_node();
+  p = create_node(); // Помещаем новый элемент в указатель p 
   if (head == NULL and p != NULL) // Если списка нет, то добавляем элемент в голову и в хвост
   {
     head = p;
@@ -47,19 +48,17 @@ void push()
   }
   else if (head != NULL and p != NULL) // Если список есть, то добавляем элемент в начало списка
   {
-    prv = p;
-    p = p->next;
-    if (p->len > prv->len)
-    {
-      p = p->next;
-      nxt = p;
-    }
-    else
+    if (p->len < nxt->len)
     {
       head->prev = p;
       p->next = head;
       head = p;
     }
+    else if (p->len >= nxt->len)
+    {
+      nxt->next = p; // Присваиваем новое значение 
+    }
+
   }
   return;
 }
