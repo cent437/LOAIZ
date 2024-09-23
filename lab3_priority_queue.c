@@ -1,119 +1,124 @@
-#include <stdio.h>
 #include <stdlib.h>
+#include <stdio.h>
+#include <iso646.h>
 #include <string.h>
-#include <locale.h>
 typedef struct node
 {
-   char inf[256]; // полезная информация
-   int prior;
-   struct node *next; // ссылка на следующий элемент
+  struct node *next;
+  struct node *prev;
+  char data[20];
+  int len;
 }node;
-node *head = NULL, *last = NULL, *f = NULL; // указатели на первый и последний элементы списка
-int dlinna = 0;
 
-struct node* get_struct(void)
+node* head = NULL, *tail = NULL;
+node* create_node()
 {
-   node *p = NULL;
-   char s[256];
-   if ((p = (node*)malloc(sizeof(node))) == NULL) // выделяем память под новый элемент списка
-   {
-      puts("Error allocating memory");
-      exit(1);
-   }
-   puts("Enter object name:"); // вводим данные
-   scanf("%s", s);
-   if (*s == 0)
-   {
-      puts("The recording wasn't made"); // вводим данные
-      return NULL;
-   }
-   strcpy(p->inf, s);
-   p->prior = strlen(p->inf);
-   p->next = NULL;
-   return p; // возвращаем указатель на созданный элемент
+  node *p = NULL;
+  char s[20];
+  p = (node*)malloc(sizeof(node));
+  if (p == NULL)
+  {
+    puts("Error");
+    exit(1);
+  }
+  puts("Enter object name:"); // вводим данные
+  scanf("%s", s);
+  rewind(stdin);
+  if (*s == 0)
+  {
+     puts("The recording wasn't made"); // вводим данные
+     return NULL;
+  }
+  strcpy(p->data, s);
+  p->len = strlen(s);
+  p->next = NULL;
+  return p;
 }
-/* Последовательное добавление в список элемента (в конец)*/
-
-void push(void)
+void push()
 {
-   struct node *p = NULL;
-   p = get_struct();
-   if (head == NULL && p != NULL) // если списка нет, то устанавливаем голову списка
-   {
+  node *p = NULL;
+  node *prv = NULL;
+  node *nxt = NULL;
+  p = create_node();
+  if (head == NULL and p != NULL) // Если списка нет, то добавляем элемент в голову и в хвост
+  {
+    head = p;
+    tail = p;
+  }
+  else if (head != NULL and p != NULL) // Если список есть, то добавляем элемент в начало списка
+  {
+    prv = p;
+    p = p->next;
+    if (p->len > prv->len)
+    {
+      p = p->next;
+      nxt = p;
+    }
+    else
+    {
+      head->prev = p;
+      p->next = head;
       head = p;
-      last = p;
-   }
-   else if (head != NULL && p != NULL) // список уже есть, то вставляем в конец
-   {
-      if (p->prior > strlen(last->inf))
-      {
-         last->next = p;
-         last = p;
-      }
-      else
-      {
-         
-      }
-      
-   }
-   return;
+    }
+  }
+  return;
 }
-void print(void)
+void pop()
 {
-   node *struc = head;
-   if (head == NULL)
-   {
-      puts("Queue is empty.");
-   }
-   printf("->\t");
-   while (struc)
-   {
-      printf("%s \t", struc->inf);
-      struc = struc->next;
-   }
-   return;
+  node *p = head;
+  node *prv;
+  if (head == NULL) // Если список пуст, возвращаемся
+    return;
+  while (p != tail) // Проход до последнего элемента списка с отслеживанием предпоследнего
+  {
+    prv = p;  
+    p = p->next;
+  }
+  
+  if (head == tail) // Проверка на то, что в списке 1 элемент
+  {
+    head = NULL; // Обнуляем голову и хвост
+    tail = NULL;
+    return;
+  }
+  free(p);
+  prv->next = NULL;
+  tail = prv;
+  return;
 }
-
-/*Удаление элемента в конце очереди*/
-void pop(void)
+void print()
 {
-   struct node *struc = head; // указатель, проходящий по очереди установлен на начало списка
-   if (head == NULL) // если голова списка равна NULL, то список пуст
-      return;
-   
-   head = struc->next; // установливаем голову на следующий элемент
-   free(struc); // удаляем первый элемент
-   struc = head; // устанавливаем указатель для продолжения поиска
+  node *p = head;
+  if (head == NULL)
+    puts("Queue is empty");
+  printf("->\t");
+  while(p)
+  {
+    printf("%s\t", p->data);
+    p = p->next;
+  }
+  return;
 }
-
-
 int main()
 {
-   setlocale(LC_ALL, "ru_RU.UTF-8");
-   int n;
-   puts("Enter queue size:");
-   scanf("%d", &n);
-   rewind(stdin);
-   for (int i = 0; i < n; i++)
-   {
-      push();
-   }
-   puts("Queue is full.");
-   print();
-   puts("\n1. Delete");
-   puts("0. Finish");
-   
+  int n = -1;
    while(n != 0)
-   {
-      scanf("%d", &n);
-      rewind(stdin);
-      if (n == 1)
-         pop();
+    {
+     switch (n)
+     {
+      case 1:
+      push();break;
+      case 2:
+      pop(); break;
+     }
 
-      print();   
-      puts("\n1. Delete");
-      puts("0. Finish");
-   }
-
-   return 0;
+     print();
+     puts("\n1. Add");
+     puts("2. Delete");
+     puts("0. Stop");
+     scanf("%d", &n);
+     rewind(stdin);
+    }
+  
+  return 0;
 }
