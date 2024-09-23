@@ -48,6 +48,7 @@ void push()
   }
   else if (head != NULL and p != NULL) // Если список есть, то добавляем элемент в начало списка
   {
+    nxt = head;
     if (p->len < nxt->len)
     {
       head->prev = p;
