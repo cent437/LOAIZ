@@ -73,13 +73,8 @@ void push()
   }
   else if (head != NULL and p != NULL) // Если список есть, то добавляем элемент в начало списка
   {
-<<<<<<< HEAD
-    nxt = head;
-    if (p->len < nxt->len) // Если введенная строка меньше первой
-=======
     nxt = head; // Присваиваем начало списка
     if (p->len <= nxt->len)
->>>>>>> bdd697ecd361c507530f9a874161bdfe8cf6133d
     {
       head->prev = p;
       p->next = head;
@@ -87,11 +82,6 @@ void push()
     }
     if (p->len > nxt->len) // Проходим до элемента с приоритетом
     {
-<<<<<<< HEAD
-      tmp = nxt;
-      nxt = p;
-      nxt->next = tmp;
-=======
       while (p->len > nxt->len)
         {
           position = nxt;
@@ -99,7 +89,7 @@ void push()
           if (nxt == NULL) break;
         }
       push_here(position, p);
->>>>>>> bdd697ecd361c507530f9a874161bdfe8cf6133d
+
     }
     
   }
