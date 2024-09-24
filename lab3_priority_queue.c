@@ -36,33 +36,28 @@ node* create_node()
 }
 void push_here(node* position, node* p)
 {
-  if (head == NULL and p != NULL) // Если списка нет, то добавляем элемент в голову и в хвост
-  {
-    head = p;
-    tail = p;
-  }
-  else if (position == NULL)
+  if (position == NULL) // Если позиция указывает на несуществующий элемент, добавляем в конец списка
   {
     tail->next = p;
     tail = p;
+    return;
   }
   else if (head != NULL and p != NULL)
   {
-    p->prev = NULL;
-    p->next = NULL;
-
+    
     p->next = position;
     p->prev = position->prev;
   }  
-   if (position->prev)
-     position->prev->next = p;
+  if (position->prev)
+    position->prev->next = p;
+  
+  
   position->prev = p;
   return;
 }
 void push()
 {
   node *p = NULL;
-  node *prv = NULL;
   node *position = NULL;
   node *nxt = NULL;
   p = create_node(); // Помещаем новый элемент в указатель p 
@@ -74,20 +69,23 @@ void push()
   else if (head != NULL and p != NULL) // Если список есть, то добавляем элемент в начало списка
   {
     nxt = head; // Присваиваем начало списка
-    if (p->len <= nxt->len)
+    if (p->len <= head->len) // Если введеный элемен
     {
       head->prev = p;
       p->next = head;
       head = p;
     }
-    if (p->len > nxt->len) // Проходим до элемента с приоритетом
+    if (p->len > head->len) // Если введенная строка больше первой
     {
-      while (p->len > nxt->len)
-        {
-          position = nxt;
-          nxt = nxt->next;
-          if (nxt == NULL) break;
-        }
+      position = head;
+      while (p->len != position->len)
+      {
+        position = nxt; // Меняем позицию, относительно которой будем добавлять узел 
+        if (nxt == NULL) break; // Если список закончился, прекращаем проход по нему
+        nxt = nxt->next;
+      }
+      //if (nxt == NULL)
+      //  position = nxt;
       push_here(position, p);
 
     }
@@ -95,9 +93,6 @@ void push()
   }
   return;
 }
-
-
-
 void pop()
 {
   node *p = head;

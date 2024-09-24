@@ -30,6 +30,7 @@ node* create_node()
   }
   strcpy(p->data, s);
   p->next = NULL;
+  p->prev = NULL;
   return p;
 }
 void push_front()
@@ -114,9 +115,7 @@ void push(node* pos)
   }
   else if (head != NULL and p != NULL)
   {
-    p->prev = NULL;
-    p->next = NULL;
-
+    
     p->next = pos;
     p->prev = pos->prev;
   }  
