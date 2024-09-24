@@ -49,7 +49,7 @@ void push()
   else if (head != NULL and p != NULL) // Если список есть, то добавляем элемент в начало списка
   {
     nxt = head;
-    if (p->len <= nxt->len)
+    if (p->len < nxt->len) // Если введенная строка меньше первой
     {
       head->prev = p;
       p->next = head;
@@ -57,10 +57,11 @@ void push()
     }
     else if (p->len > nxt->len)
     {
-      tail->next = p;
-      tail = p;
+      tmp = nxt;
+      nxt = p;
+      nxt->next = tmp;
     }
-
+    
   }
   return;
 }
