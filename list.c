@@ -150,16 +150,20 @@ int main()
       case 2:
       push_back(); break;
       case 3:
-      pop_back(); break;
+      push(tail); break;
       case 4:
       pop_front(); break;
+      case 5:
+      pop_back(); break;
+
      }
 
      print();
      puts("\n1. Add to begin");
      puts("2. Add to end");
-     puts("3. Delete last element");
+     puts("3. Add elsewhere");
      puts("4. Delete first element");
+     puts("5. Delete last element");
      puts("0. Stop");
      scanf("%d", &n);
      rewind(stdin);

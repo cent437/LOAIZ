@@ -34,11 +34,36 @@ node* create_node()
   p->next = NULL;
   return p;
 }
+void push_here(node* position, node* p)
+{
+  if (head == NULL and p != NULL) // Если списка нет, то добавляем элемент в голову и в хвост
+  {
+    head = p;
+    tail = p;
+  }
+  else if (position == NULL)
+  {
+    tail->next = p;
+    tail = p;
+  }
+  else if (head != NULL and p != NULL)
+  {
+    p->prev = NULL;
+    p->next = NULL;
+
+    p->next = position;
+    p->prev = position->prev;
+  }  
+   if (position->prev)
+     position->prev->next = p;
+  position->prev = p;
+  return;
+}
 void push()
 {
   node *p = NULL;
   node *prv = NULL;
-  node *tmp = NULL;
+  node *position = NULL;
   node *nxt = NULL;
   p = create_node(); // Помещаем новый элемент в указатель p 
   if (head == NULL and p != NULL) // Если списка нет, то добавляем элемент в голову и в хвост
@@ -48,23 +73,41 @@ void push()
   }
   else if (head != NULL and p != NULL) // Если список есть, то добавляем элемент в начало списка
   {
+<<<<<<< HEAD
     nxt = head;
     if (p->len < nxt->len) // Если введенная строка меньше первой
+=======
+    nxt = head; // Присваиваем начало списка
+    if (p->len <= nxt->len)
+>>>>>>> bdd697ecd361c507530f9a874161bdfe8cf6133d
     {
       head->prev = p;
       p->next = head;
       head = p;
     }
-    else if (p->len > nxt->len)
+    if (p->len > nxt->len) // Проходим до элемента с приоритетом
     {
+<<<<<<< HEAD
       tmp = nxt;
       nxt = p;
       nxt->next = tmp;
+=======
+      while (p->len > nxt->len)
+        {
+          position = nxt;
+          nxt = nxt->next;
+          if (nxt == NULL) break;
+        }
+      push_here(position, p);
+>>>>>>> bdd697ecd361c507530f9a874161bdfe8cf6133d
     }
     
   }
   return;
 }
+
+
+
 void pop()
 {
   node *p = head;
