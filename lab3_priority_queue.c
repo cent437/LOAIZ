@@ -87,9 +87,7 @@ void push()
       //if (nxt == NULL)
       //  position = nxt;
       push_here(position, p);
-
     }
-    
   }
   return;
 }
