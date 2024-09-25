@@ -39,20 +39,25 @@ void push_here(node* position, node* p)
   if (position == NULL) // Если позиция указывает на несуществующий элемент, добавляем в конец списка
   {
     tail->next = p;
+    p->prev = tail;
     tail = p;
     return;
   }
   else if (head != NULL and p != NULL)
   {
+    p->prev = NULL;
+    p->next = NULL;
     
     p->next = position;
     p->prev = position->prev;
+    if (position->prev)
+    {
+      position->prev->next = p;
+  
+    }
+    position->prev = p;
   }  
-  if (position->prev)
-    position->prev->next = p;
   
-  
-  position->prev = p;
   return;
 }
 void push()

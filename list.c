@@ -86,6 +86,7 @@ void pop_front()
 void push_back()
 {
   node *p = NULL;
+  node *prv = NULL;
   p = create_node();
   if (head == NULL and p != NULL) // Если списка нет, то добавляем элемент в голову и в хвост
   {
@@ -95,6 +96,7 @@ void push_back()
   else if (head != NULL and p != NULL) // Если список есть, то добавляем элемент в конец списка
   {
     tail->next = p;
+    p->prev = tail;
     tail = p;
   }
   return;
@@ -115,13 +117,17 @@ void push(node* pos)
   }
   else if (head != NULL and p != NULL)
   {
-    
+    p->prev = NULL;
+    p->next = NULL;
     p->next = pos;
     p->prev = pos->prev;
-  }  
-   if (pos->prev)
+    
+    
+    if (pos->prev)
      pos->prev->next = p;
-  pos->prev = p;
+    pos->prev = p;
+  }  
+   
   return;
 }
 void print()
@@ -140,6 +146,7 @@ void print()
 int main()
 {
   int n = -1;
+  
    while(n != 0)
     {
      switch (n)
@@ -149,7 +156,8 @@ int main()
       case 2:
       push_back(); break;
       case 3:
-      push(tail); break;
+      node* c = head->next;
+      push(c->next); break;
       case 4:
       pop_front(); break;
       case 5:
