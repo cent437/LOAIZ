@@ -104,30 +104,25 @@ void push_back()
 void push(node* pos)
 {
   node *p = NULL;
+  node* prv = NULL;
   p = create_node();
-  if (head == NULL and p != NULL) // Если списка нет, то добавляем элемент в голову и в хвост
-  {
-    head = p;
-    tail = p;
-  }
-  else if (pos == NULL)
+  if (pos == NULL)
   {
     tail->next = p;
     tail = p;
+    return;
   }
   else if (head != NULL and p != NULL)
   {
-    p->prev = NULL;
-    p->next = NULL;
+
     p->next = pos;
     p->prev = pos->prev;
-    
-    
     if (pos->prev)
-     pos->prev->next = p;
+    {
+      pos->prev->next = p;
+    }
     pos->prev = p;
   }  
-   
   return;
 }
 void print()
