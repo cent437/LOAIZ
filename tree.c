@@ -68,6 +68,11 @@ void build_tree()
 }
 void search(node *r, int32_t n)
 {
+   if (r == NULL)
+   {
+      puts("Element not found.");
+      return;
+   }
    if (n == r->data)
    {
       puts("Element found.");
@@ -82,11 +87,6 @@ void search(node *r, int32_t n)
    {
       r = r->right;
       search(r, n);
-   }
-   else
-   {
-      puts("Element not found.");
-      return;
    }
 }
 int main()
