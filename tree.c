@@ -24,13 +24,13 @@ node *CreateTree(node *root, node *r, int32_t data)
       r->data = data;
       if (root == NULL)
          return r;
-      if (data > root->data)
+      if (data > root->data) // Если введенное число больше числа в корне, переходим в левую ветку
          root->left = r;
       else
-         root->right = r;
+         root->right = r; // Иначе в правую ветку
       return r;
    }
-   if (data > r->data)
+   if (data > r->data) // Добавление в существующее дерево нового элемента по той же логике
       CreateTree(r, r->left, data);
    else
       CreateTree(r, r->right, data);
