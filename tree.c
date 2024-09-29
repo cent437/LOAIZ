@@ -68,17 +68,17 @@ void build_tree()
 }
 void search(node *r, int32_t n)
 {
-   if (r == NULL)
+   if (r == NULL) // Если в ходе переходов элемент не нашелся, выводим сообщение о его отсутствии.
    {
       puts("Element not found.");
       return;
    }
-   if (n == r->data)
+   if (n == r->data) // Если элемент нашелся в дереве, выводим сообщение об этом.
    {
       puts("Element found.");
       return;
    }
-   else if (n > r->data)
+   else if (n > r->data) // Иначе проходим по дереву дальше
    {
       r = r->left;
       search(r, n);
@@ -96,7 +96,7 @@ void count_of(node *r, int32_t n, int32_t i)
       printf("There are %d elements %d in this tree.\n", i, n);
       return;
    }
-   if (n == r->data)
+   if (n == r->data) // Если элемент совпал с элементом в дереве, прибавляем к счетчику 1.
    {
       i++;
       if (n > r->data)
