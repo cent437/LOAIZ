@@ -78,15 +78,41 @@ void search(node *r, int32_t n)
       r = r->left;
       search(r, n);
    }
-   else
+   else if (n < r->data)
    {
       r = r->right;
       search(r, n);
    }
+   else
+   {
+      puts("Element not found.");
+      return;
+   }
 }
 int main()
 {
-   print_tree(root, 0);
-   getchar();
+   int n = -1;
+   int x;
+   while (n != 0)
+   {
+      
+      puts("1. Create tree");
+      puts("2. Search the element");
+      puts("0. Stop");
+      scanf("%d", &n);
+      switch (n)
+      {
+      case 1:
+         build_tree();
+         print_tree(root, 0);
+         break;
+      case 2:
+         puts("Enter the number to search:");
+         scanf("%d", &x);
+         search(root, x);
+         break;
+      }
+      
+   }
    return 0;
 }
