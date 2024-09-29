@@ -66,7 +66,24 @@ void build_tree()
          root = CreateTree(root, root, D);
    }
 }
-
+void search(node *r, int32_t n)
+{
+   if (n == r->data)
+   {
+      puts("Element found.");
+      return;
+   }
+   else if (n > r->data)
+   {
+      r = r->left;
+      search(r, n);
+   }
+   else
+   {
+      r = r->right;
+      search(r, n);
+   }
+}
 int main()
 {
    print_tree(root, 0);
