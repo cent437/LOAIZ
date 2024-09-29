@@ -37,7 +37,7 @@ node *CreateTree(node *root, node *r, int32_t data)
    }
    if (data == r->data)
    {
-      puts("You can't add similar elements in this tree");
+      puts("You can't add similar elements in this tree"); // Если введенное число совпадает с корнем, то не добавляем его.
       return r;
    }
    else if (data > r->data) // Добавление в существующее дерево нового элемента по той же логике
