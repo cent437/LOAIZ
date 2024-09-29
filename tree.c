@@ -89,15 +89,48 @@ void search(node *r, int32_t n)
       search(r, n);
    }
 }
+void count_of(node *r, int32_t n, int32_t i)
+{
+   if (r == NULL)
+   {
+      printf("There are %d elements %d in this tree.\n", i, n);
+      return;
+   }
+   if (n == r->data)
+   {
+      i++;
+      if (n > r->data)
+      {
+         r = r->left;
+         count_of(r, n, i);
+      }
+      else
+      {
+         r = r->right;
+         count_of(r, n, i);
+      }
+   }
+   else if (n > r->data)
+   {
+      r = r->left;
+      count_of(r, n, i);
+   }
+   else if (n < r->data)
+   {
+      r = r->right;
+      count_of(r, n, i);
+   }
+}
 int main()
 {
    int n = -1;
    int x;
    while (n != 0)
    {
-      
+
       puts("1. Create tree");
       puts("2. Search the element");
+      puts("3. Count of N elements");
       puts("0. Stop");
       scanf("%d", &n);
       switch (n)
@@ -111,8 +144,12 @@ int main()
          scanf("%d", &x);
          search(root, x);
          break;
+      case 3:
+         puts("Enter the number to count:");
+         scanf("%d", &x);
+         count_of(root, x, 0);
+         break;
       }
-      
    }
    return 0;
 }
