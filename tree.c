@@ -52,7 +52,7 @@ void print_tree(node *r, int l)
 void build_tree()
 {
    int32_t D, start = 1;
-   puts("-1 - end of tree build");
+   puts("-1: end of tree build");
    while (start)
    {
       puts("Enter the number:");
