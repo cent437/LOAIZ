@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <stdint-gcc.h>
+#include <stdint.h>
 typedef struct node
 {
    int32_t data;

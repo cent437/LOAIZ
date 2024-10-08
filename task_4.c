@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <stdint-gcc.h>
+#include <stdint.h>
 #include <time.h>
 #include <limits.h>
 typedef struct node
