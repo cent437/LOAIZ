@@ -13,13 +13,14 @@ int main()
 	int32_t size = 0;
 	puts("Введите размер матрицы смежности: ");
 	scanf("%d", &n);
-	for (int32_t i = 0; i < n; i++) {
+
+	for (int32_t i = 0; i < n; i++) // Выделение памяти под матрицу смежности и под массив степеней вершин
 		a = (int32_t**)calloc(n, sizeof(int32_t*));
-	}
-	for (int32_t i = 0; i < n; i++) {
+	for (int32_t i = 0; i < n; i++) 								
 		a[i] = (int32_t*)calloc(n, sizeof(int32_t));
-	}
 	b = (int32_t*)calloc(n, sizeof(int32_t));
+
+
 	srand(time(NULL));
 	puts("Матрица смежности для графа G:");
 	putchar('\t');
