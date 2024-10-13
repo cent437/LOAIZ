@@ -3,9 +3,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
-/* Печать матрицы смежности. Возвращает размер графа.
- */
+/* Печать матрицы смежности. Возвращает количество вершин графа. */
 int32_t print_matrix(int32_t **matrix, int32_t matrix_size);
+
+
 int main()
 {
   int32_t **matrix, *powers, matrix_size = 0, dom, graph_size = 0;
