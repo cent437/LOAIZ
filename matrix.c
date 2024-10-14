@@ -28,7 +28,6 @@ int32_t **generate_adjacency_matrix(int32_t matrix_size) {
   return adjacency_matrix;
 }
 int32_t print_adjacency_matrix(int32_t **adjacency_matrix,
-
                                int32_t matrix_size) {
 
   int32_t size;
