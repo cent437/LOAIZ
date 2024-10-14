@@ -1,12 +1,4 @@
-#include <iso646.h>
-#include <stdint.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <time.h>
-/* Печать матрицы смежности. Возвращает количество вершин графа. */
-int32_t print_matrix(int32_t **matrix, int32_t matrix_size);
-
-
+#include "matrix.h"
 int main()
 {
   int32_t **matrix, *powers, matrix_size = 0, dom, graph_size = 0;
@@ -15,14 +7,7 @@ int main()
   scanf("%d", &matrix_size);
   /* Выделение памяти под матрицу смежности и под массив степеней вершин графа
    */
-  for (int32_t i = 0; i < matrix_size; i++)
-  {
-    matrix = (int32_t **)calloc(matrix_size, sizeof(int32_t *));
-    for (int32_t j = 0; j < matrix_size; j++)
-    {
-      matrix[j] = (int32_t *)calloc(matrix_size, sizeof(int32_t));
-    }
-  }
+  matrix = generate_adjacency_matrix(matrix_size);
   powers = (int32_t *)calloc(matrix_size, sizeof(int32_t));
   for (int32_t i = 0; i < (matrix_size / 2); i++)
   {
@@ -41,7 +26,7 @@ int main()
   }
 
   putchar('\n');
-  graph_size = print_matrix(matrix, matrix_size);
+  graph_size = print_adjacency_matrix(matrix, matrix_size) / 2;
   puts("Степени вершин графа:");
   for (int32_t i = 0; i < matrix_size; i++)
   {
@@ -54,32 +39,7 @@ int main()
     if (dom > powers[i])
       dom = powers[i];
   }
-
   printf("Размер графа: %d", graph_size / 2);
   free(matrix), free(powers);
   return 0;
-}
-int32_t print_matrix(int32_t **matrix, int32_t matrix_size)
-{
-  int32_t size;
-  puts("Матрица смежности для графа G:");
-  putchar(' ');
-  putchar(' ');
-  for (int32_t i = 0; i < matrix_size; i++)
-    printf("%d ", i + 1);
-  putchar('\n');
-
-  for (int32_t i = 0; i < matrix_size; i++)
-  {
-    printf("%d ", i + 1);
-    for (int32_t j = 0; j < matrix_size; j++)
-    {
-
-      printf("%d ", matrix[i][j]);
-      if (matrix[i][j] == 1) // если есть ребро
-        size++;
-    }
-    putchar('\n');
-  }
-  return size;
 }
