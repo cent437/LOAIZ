@@ -53,7 +53,7 @@ int32_t print_adjacency_matrix(int32_t **adjacency_matrix,
     for (int32_t j = 0; j < matrix_size; j++) {
 
       printf("%d ", adjacency_matrix[i][j]);
-      if (adjacency_matrix[i][j] == 1) // если есть ребро
+      if (adjacency_matrix[i][j] == 1 && adjacency_matrix[j][i] == 1) // если есть ребро
         size++;
     }
     putchar('\n');
@@ -75,7 +75,7 @@ int32_t print_incident_matrix(int32_t **incident_matrix, int32_t matrix_size) {
 
     for (int32_t j = 0; j < matrix_size; j++) {
       printf("%d ", incident_matrix[i][j]);
-      if (incident_matrix[i][j] == 1 && incident_matrix[j][i] == 1)
+      if (incident_matrix[i][j] == 1)
         size++;
     }
 

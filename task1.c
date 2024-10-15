@@ -1,4 +1,8 @@
 #include "matrix.h"
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+
 int main()
 {
   int32_t **matrix, *powers, matrix_size = 0, dom, graph_size = 0;
@@ -39,7 +43,7 @@ int main()
     if (dom > powers[i])
       dom = powers[i];
   }
-  printf("Размер графа: %d", graph_size / 2);
+  printf("Размер графа: %d", graph_size);
   free(matrix), free(powers);
   return 0;
 }
