@@ -16,9 +16,7 @@ int32_t **generate_incident_matrix(int32_t matrix_size) {
   return incident_matrix;
 }
 int32_t **generate_adjacency_matrix(int32_t matrix_size) {
-
   int32_t **adjacency_matrix;
-
   for (int32_t i = 0; i < matrix_size; i++) {
     adjacency_matrix = (int32_t **)calloc(matrix_size, sizeof(int32_t *));
 

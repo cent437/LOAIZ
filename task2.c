@@ -15,18 +15,9 @@ int main() {
     puts("Графа не существует.");
     return 0;
   }
-
   adjacency_matrix = generate_adjacency_matrix(matrix_size);
   incident_matrix = generate_incident_matrix(matrix_size);
-
-  for (int32_t i = 0; i < (matrix_size / 2); i++) {
-    for (int32_t j = 0; j < matrix_size; j++) {
-      adjacency_matrix[i][j] = rand() % 2;
-      adjacency_matrix[j][i] = adjacency_matrix[i][j];
-      if (i == j)
-        adjacency_matrix[i][j] = 0;
-    }
-  }
+  
   /* Создание матрицы инцидентности */
   int32_t k = 0;
   for (int32_t i = 0; i < matrix_size; i++) {
