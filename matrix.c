@@ -1,4 +1,7 @@
 #include "matrix.h"
+#include <stdint.h>
+#include <stdio.h>
+#include <stdlib.h>
 
 int32_t **generate_incident_matrix(int32_t matrix_size) {
 
@@ -59,9 +62,8 @@ int32_t print_adjacency_matrix(int32_t **adjacency_matrix,
   }
   return size;
 }
-
-void print_incident_matrix(int32_t **incident_matrix, int32_t matrix_size) {
-
+int32_t print_incident_matrix(int32_t **incident_matrix, int32_t matrix_size) {
+  int32_t size = 0;
   puts("Матрица инцидентности для графа G:");
   putchar(' ');
   putchar(' ');
@@ -73,8 +75,13 @@ void print_incident_matrix(int32_t **incident_matrix, int32_t matrix_size) {
   for (int32_t i = 0; i < matrix_size; i++) {
     printf("%d ", i + 1);
 
-    for (int32_t j = 0; j < matrix_size; j++)
+    for (int32_t j = 0; j < matrix_size; j++) {
       printf("%d ", incident_matrix[i][j]);
+      if (incident_matrix[i][j] == 1 && incident_matrix[j][i] == 1)
+        size++;
+    }
+
     putchar('\n');
   }
+  return size;
 }
