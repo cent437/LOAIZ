@@ -1,14 +1,14 @@
 #include "matrix.h"
-#include <stdint.h>
-#include <stdio.h>
-#include <stdlib.h>
 
-int32_t **generate_incident_matrix(int32_t matrix_size) {
-
+int32_t **generate_incident_matrix(int32_t rows, int32_t cols) {
   int32_t **incident_matrix;
-  incident_matrix = (int32_t **)calloc(matrix_size, sizeof(int32_t *));
-  for (int32_t i = 0; i < matrix_size; i++)
-    incident_matrix[i] = (int32_t *)calloc(matrix_size, sizeof(int32_t));
+  incident_matrix = (int32_t **)calloc(rows, sizeof(int32_t *));
+  for (int32_t i = 0; i < rows; i++)
+    incident_matrix[i] = (int32_t *)calloc(cols, sizeof(int32_t));
+  if (incident_matrix == NULL) {
+    puts("Ошибка выделения памяти.");
+    exit(1);
+  }
   return incident_matrix;
 }
 int32_t **generate_adjacency_matrix(int32_t matrix_size) {
@@ -27,10 +27,11 @@ int32_t **generate_adjacency_matrix(int32_t matrix_size) {
   }
   return adjacency_matrix;
 }
+
 int32_t print_adjacency_matrix(int32_t **adjacency_matrix,
                                int32_t matrix_size) {
 
-  int32_t size;
+  int32_t size = 0;
   puts("Матрица смежности для графа G:");
   putchar(' ');
   putchar(' ');
@@ -51,26 +52,23 @@ int32_t print_adjacency_matrix(int32_t **adjacency_matrix,
     }
     putchar('\n');
   }
-  return size;
+  return size / 2;
 }
-int32_t print_incident_matrix(int32_t **incident_matrix, int32_t matrix_size) {
-  int32_t size = 0;
+void print_incident_matrix(int32_t **incident_matrix, int32_t rows,
+                           int32_t cols) {
   puts("Матрица инцидентности для графа G:");
   putchar(' ');
   putchar(' ');
 
-  for (int32_t i = 0; i < matrix_size; i++)
-    printf("%d ", i + 1);
+  for (int32_t i = 0; i < cols; i++)
+    printf("%c ", i + 0x61);
   putchar('\n');
 
-  for (int32_t i = 0; i < matrix_size; i++) {
+  for (int32_t i = 0; i < rows; i++) {
     printf("%d ", i + 1);
-    for (int32_t j = 0; j < matrix_size; j++) {
+    for (int32_t j = 0; j < cols; j++) {
       printf("%d ", incident_matrix[i][j]);
-      if (incident_matrix[i][j] == 1)
-        size++;
     }
     putchar('\n');
   }
-  return size;
 }
