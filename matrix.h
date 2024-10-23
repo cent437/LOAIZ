@@ -21,3 +21,4 @@ extern int32_t print_adjacency_matrix(int32_t **adjacency_matrix,
 /* Печать матрицы инцидентности. */
 extern void print_incident_matrix(int32_t **incident_matrix, int32_t rows,
                                   int32_t cols);
+extern int32_t **otozhd(int32_t **G, int32_t size, int32_t V);
