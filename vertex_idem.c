@@ -1,5 +1,4 @@
 #include "matrix.h"
-#include <stdint.h>
 int main() {
   int32_t size = 0, vertex = 0;
   puts("Введите размер матриц:");
