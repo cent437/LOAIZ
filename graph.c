@@ -1,4 +1,4 @@
-#include "matrix.h"
+#include "graph.h"
 
 int32_t **generate_incident_matrix(int32_t rows, int32_t cols) {
   int32_t **incident_matrix;
@@ -36,12 +36,12 @@ int32_t print_adjacency_matrix(int32_t **adjacency_matrix,
   putchar(' ');
 
   for (int32_t i = 0; i < matrix_size; i++)
-    printf("%d ", i);
+    printf("%d ", i + 1);
 
   putchar('\n');
   for (int32_t i = 0; i < matrix_size; i++) {
 
-    printf("%d ", i);
+    printf("%d ", i + 1);
 
     for (int32_t j = 0; j < matrix_size; j++) {
       printf("%d ", adjacency_matrix[i][j]);
@@ -107,4 +107,43 @@ void print_incident_matrix(int32_t **incident_matrix, int32_t rows,
     }
     putchar('\n');
   }
+}
+
+list *create_node(int32_t data) {
+  list *p = NULL;
+  p = (list *)malloc(sizeof(list));
+  if (p == NULL) {
+    puts("Error");
+    exit(1);
+  }
+  p->index = data;
+  p->next = NULL;
+  return p;
+}
+
+void push(list **lists_pointer, int32_t data, int32_t head_index) {
+  list *p = NULL;
+  p = create_node(data);
+  /* Если списка нет, то добавляем элемент в голову */
+  if (lists_pointer[head_index] == NULL and p != NULL)
+    lists_pointer[head_index] = p;
+
+  /* Если список есть, то добавляем элемент в начало списка */
+  else if (lists_pointer[head_index] != NULL and p != NULL) {
+    lists_pointer[head_index]->prev = p;
+    p->next = lists_pointer[head_index];
+    lists_pointer[head_index] = p;
+  }
+}
+
+void print_adjacency_list(list **lists_pointer, int32_t head_index) {
+  list *p = lists_pointer[head_index];
+  if (lists_pointer == NULL)
+    puts("List is empty");
+  printf("%d:\t", head_index + 1);
+  while (p) {
+    printf("%d\t", p->index);
+    p = p->next;
+  }
+  return;
 }
