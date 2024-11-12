@@ -1,18 +1,9 @@
 #include "graph.h"
 #include <stdint.h>
+#include <stdio.h>
 
-int32_t **generate_incident_matrix(int32_t rows, int32_t cols) {
-  int32_t **incident_matrix;
-  incident_matrix = (int32_t **)calloc(rows, sizeof(int32_t *));
-  for (int32_t i = 0; i < rows; i++)
-    incident_matrix[i] = (int32_t *)calloc(cols, sizeof(int32_t));
-  if (incident_matrix == NULL) {
-    puts("Ошибка выделения памяти.");
-    exit(1);
-  }
-  return incident_matrix;
-}
 int32_t **generate_adjacency_matrix(int32_t matrix_size) {
+  srand(time(NULL));
   if (matrix_size <= 0) {
     return NULL;
   }
@@ -31,36 +22,52 @@ int32_t **generate_adjacency_matrix(int32_t matrix_size) {
   }
   return adjacency_matrix;
 }
+int32_t **generate_incident_matrix(int32_t rows, int32_t cols) {
+  int32_t **incident_matrix;
+  incident_matrix = (int32_t **)calloc(rows, sizeof(int32_t *));
+  for (int32_t i = 0; i < rows; i++)
+    incident_matrix[i] = (int32_t *)calloc(cols, sizeof(int32_t));
+  if (incident_matrix == NULL) {
+    puts("Ошибка выделения памяти.");
+    exit(1);
+  }
+  return incident_matrix;
+}
 
-int32_t print_adjacency_matrix(int32_t **adjacency_matrix,
-                               int32_t matrix_size) {
-
-  int32_t size = 0;
-  int32_t loops = 0;
+void print_adjacency_matrix(int32_t **adjacency_matrix, int32_t matrix_size) {
   putchar(' ');
   putchar(' ');
-
   for (int32_t i = 0; i < matrix_size; i++)
     printf("%d ", i + 1);
-
   putchar('\n');
   for (int32_t i = 0; i < matrix_size; i++) {
-
     printf("%d ", i + 1);
-
     for (int32_t j = 0; j < matrix_size; j++) {
       printf("%d ", adjacency_matrix[i][j]);
-      if (adjacency_matrix[i][j] == 1 &&
-          adjacency_matrix[j][i] == 1) // если есть ребро
-        size++;
     }
-    loops += adjacency_matrix[i][i];
     putchar('\n');
   }
-  size /= 2;
-  size += loops;
-  return size;
 }
+
+void print_incident_matrix(int32_t **incident_matrix, int32_t rows,
+                           int32_t cols) {
+  puts("Матрица инцидентности для графа G:");
+  putchar(' ');
+  putchar(' ');
+
+  for (int32_t i = 0; i < cols; i++)
+    printf("%c ", i + 0x61);
+  putchar('\n');
+
+  for (int32_t i = 0; i < rows; i++) {
+    printf("%d ", i + 1);
+    for (int32_t j = 0; j < cols; j++) {
+      printf("%d ", incident_matrix[i][j]);
+    }
+    putchar('\n');
+  }
+}
+
 int32_t **del_vertex(int32_t **G, int32_t size, int32_t V) {
   int32_t **G_new = NULL;
   if ((V + 1) > size) {
@@ -98,63 +105,6 @@ int32_t **del_vertex(int32_t **G, int32_t size, int32_t V) {
       free(G[i]);
   }
   return G_new;
-}
-void print_incident_matrix(int32_t **incident_matrix, int32_t rows,
-                           int32_t cols) {
-  puts("Матрица инцидентности для графа G:");
-  putchar(' ');
-  putchar(' ');
-
-  for (int32_t i = 0; i < cols; i++)
-    printf("%c ", i + 0x61);
-  putchar('\n');
-
-  for (int32_t i = 0; i < rows; i++) {
-    printf("%d ", i + 1);
-    for (int32_t j = 0; j < cols; j++) {
-      printf("%d ", incident_matrix[i][j]);
-    }
-    putchar('\n');
-  }
-}
-
-list *create_node(int32_t data) {
-  list *p = NULL;
-  p = (list *)malloc(sizeof(list));
-  if (p == NULL) {
-    puts("Error");
-    exit(1);
-  }
-  p->index = data;
-  p->next = NULL;
-  return p;
-}
-
-void push(list **lists_pointer, int32_t data, int32_t head_index) {
-  list *p = NULL;
-  p = create_node(data);
-  /* Если списка нет, то добавляем элемент в голову */
-  if (lists_pointer[head_index] == NULL and p != NULL)
-    lists_pointer[head_index] = p;
-
-  /* Если список есть, то добавляем элемент в начало списка */
-  else if (lists_pointer[head_index] != NULL and p != NULL) {
-    lists_pointer[head_index]->prev = p;
-    p->next = lists_pointer[head_index];
-    lists_pointer[head_index] = p;
-  }
-}
-
-void print_adjacency_list(list **lists_pointer, int32_t head_index) {
-  list *p = lists_pointer[head_index];
-  if (lists_pointer == NULL)
-    puts("List is empty");
-  printf("%d:\t", head_index + 1);
-  while (p) {
-    printf("%d\t", p->index);
-    p = p->next;
-  }
-  return;
 }
 
 int32_t **contrV(int32_t **G, int32_t size, int32_t v1, int32_t v2) {
@@ -237,8 +187,8 @@ int32_t **intersectionG(int32_t **G1, int32_t **G2, int32_t size_G1,
   return Gtemp;
 }
 
-int32_t **ring_sumG(int32_t **G1, int32_t **G2, int32_t size_G1,
-                    int32_t size_G2, int32_t *size_Gtemp) {
+int32_t **xor_G(int32_t **G1, int32_t **G2, int32_t size_G1, int32_t size_G2,
+                int32_t *size_Gtemp) {
   int32_t sizemin, sizemax;
   int32_t **Gtemp = NULL;
   if (size_G1 >= size_G2) {
@@ -255,7 +205,7 @@ int32_t **ring_sumG(int32_t **G1, int32_t **G2, int32_t size_G1,
 
     for (int32_t i = sizemin; i < sizemax; i++)
       for (int32_t j = 0; j < sizemax; j++)
-        Gtemp[i][j] = G1[i][j]; 
+        Gtemp[i][j] = G1[i][j];
     int32_t step = 0;
     for (int32_t i = 0; i < sizemax; i++) {
 
@@ -304,6 +254,41 @@ int32_t **ring_sumG(int32_t **G1, int32_t **G2, int32_t size_G1,
   return Gtemp;
 }
 
+list *create_node(int32_t data) {
+  list *p = NULL;
+  p = (list *)malloc(sizeof(list));
+  if (p == NULL) {
+    puts("Error");
+    exit(1);
+  }
+  p->index = data;
+  p->next = NULL;
+  return p;
+}
+
+void push(list **lists_pointer, int32_t data, int32_t head_index) {
+  list *p = NULL;
+  list *tail = NULL;
+  p = create_node(data);
+  /* Если списка нет, то добавляем элемент в голову */
+  if (lists_pointer[head_index] == NULL and p != NULL)
+    lists_pointer[head_index] = p;
+
+  /* Если список есть, то добавляем вершину в конец списка */
+  else if (lists_pointer[head_index] != NULL and p != NULL) {
+    tail = lists_pointer[head_index];
+
+    /* Цикл перехода в конец списка */
+    while (tail->next != NULL) {
+      tail = tail->next;
+    }
+
+    /* Добавление вершины в конец списка */
+    tail->next = p;
+    p->prev = tail;
+    tail = p;
+  }
+}
 list **create_adjacency_list(int32_t **G, int32_t size) {
 
   list **l = (list **)calloc(size, sizeof(list *));
@@ -312,9 +297,26 @@ list **create_adjacency_list(int32_t **G, int32_t size) {
       if (G[i][j] == 1)
         push(l, j + 1, i);
   puts("Список смежности для графа G");
-  for (int32_t i = 0; i < size; i++) {
-    print_adjacency_list(l, i);
-    putchar('\n');
-  }
+
   return l;
+}
+
+void print_adjacency_list(list **lists_pointer, int32_t size) {
+  int32_t head_index = 0;
+  list **head = lists_pointer;
+  list *p = lists_pointer[head_index];
+  if (lists_pointer == NULL) {
+    puts("List is empty");
+    return;
+  }
+  for (int32_t i = 0; i < size; i++) {
+    printf("%d:\t", head_index + 1);
+    while (p) {
+      printf("%d\t", p->index);
+      p = p->next;
+    }
+    putchar('\n');
+    head_index++;
+    p = lists_pointer[head_index];
+  }
 }
