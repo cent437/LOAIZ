@@ -1,9 +1,11 @@
 #include "graph.h"
-#include <stdint.h>
-#include <stdio.h>
+#include <cstddef>
+#include <ctime>
+#include <iostream>
+#include <queue>
 
 int32_t **generate_adjacency_matrix(int32_t matrix_size) {
-  srand(time(NULL));
+  // srand(time(NULL));
   if (matrix_size <= 0) {
     return NULL;
   }
@@ -318,5 +320,49 @@ void print_adjacency_list(list **lists_pointer, int32_t size) {
     putchar('\n');
     head_index++;
     p = lists_pointer[head_index];
+  }
+}
+void bfs_matrix(int32_t **G, int32_t size, int32_t *visited, int32_t v) {
+  double start = clock(), stop = 0;
+  std::queue<int32_t> q;
+  q.push(v);
+  visited[v] = 1;
+  while (!q.empty()) {
+    v = q.front();
+    q.pop();
+    std::cout << v + 1 << ' ';
+    for (int i = 0; i < size; i++) {
+      if (G[v][i] == 1 and visited[i] == 0) {
+        q.push(i);
+        visited[i] = 1;
+      }
+    }
+  }
+  stop = clock();
+  printf("\nВремя обхода графа: %lf", (stop - start) / 1000);
+}
+void bfs_list(list **l, int32_t size, int32_t *visited, int32_t v) {
+  std::queue<int32_t> q;
+  list *prv = NULL;
+  q.push(v);
+  visited[v] = 1;
+  /* Переход в стартовый список смежных вершин. */
+  list *head = l[v];
+  while (!q.empty()) {
+    v = q.front();
+    q.pop();
+    std::cout << v + 1 << ' ';
+    while (head != NULL) {
+      if (visited[head->index - 1] == 0) {
+        q.push(head->index - 1);
+        visited[head->index - 1] = 1;
+      }
+      /* Отслеживание предыдущего элемента для перехода в другой список смежных
+       * вершин. */
+      prv = head;
+      head = head->next;
+    }
+    /* Переход в другой список смежных вершин. */
+    head = l[prv->index - 1];
   }
 }
