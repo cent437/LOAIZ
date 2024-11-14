@@ -21,6 +21,18 @@ typedef struct adjacency_list {
 
 } list;
 
+class c_stack {
+public:
+  typedef struct stack {
+    struct stack *next;
+    int data;
+  } stack;
+  stack *head = NULL, *tail = NULL;
+  stack *create_stack_node(int data);
+  void push(int data);
+  void pop();
+};
+
 class c_queue {
 public:
   typedef struct node {
@@ -84,6 +96,16 @@ extern list **create_adjacency_list(int32_t **G, int32_t size);
 
 /* Печать списка смежности. */
 extern void print_adjacency_list(list **lists_pointer, int32_t size);
+
+/* Обход в глубину по матрице смежности */
+extern void dfs_matrix(int32_t **G, int32_t start, int32_t *visited,
+                       int32_t size);
+
+/* Обход в глубину по списку смежности */
+extern void dfs_list(list **l, int32_t start, int32_t *visited, int32_t size);
+
+void dfs_no_recursive(int32_t **G, int32_t start, int32_t *visited,
+                      int32_t size);
 
 /* Обход в ширину по матрице смежности. */
 extern void bfs_matrix(int32_t **G, int32_t size, int32_t *visited, int32_t v);

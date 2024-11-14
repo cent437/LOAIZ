@@ -4,6 +4,57 @@
 #include <ctime>
 #include <iostream>
 #include <queue>
+c_stack::stack *c_stack::create_stack_node(int data) {
+  stack *p = NULL;
+  p = (stack *)malloc(sizeof(stack));
+  if (p == NULL) {
+    puts("Error");
+    exit(1);
+  }
+  p->data = data;
+  p->next = NULL;
+  return p;
+}
+void c_stack::push(int data) {
+  stack *p = NULL;
+  p = create_stack_node(data);
+  if (this->head == NULL and
+      p != NULL) // Если списка нет, то добавляем элемент в голову и в хвост
+  {
+    this->head = p;
+    this->tail = p;
+  } else if (this->head != NULL and
+             p != NULL) // Если список есть, то добавляем элемент в конец списка
+  {
+    this->tail->next = p;
+    this->tail = p;
+  }
+  return;
+}
+
+void c_stack::pop() {
+  stack *p = this->head;
+  stack *prv;
+  if (this->head == NULL)
+    return;
+  while (p != this->tail) // Проход до последнего элемента списка с
+                          // отслеживанием предпоследнего
+  {
+    prv = p;
+    p = p->next;
+  }
+
+  if (this->head == this->tail) // Проверка на то, что в списке 1 элемент
+  {
+    this->head = NULL; // Обнуляем голову и хвост
+    this->tail = NULL;
+    return;
+  }
+  free(p);
+  prv->next = NULL;
+  this->tail = prv;
+  return;
+}
 
 c_queue::node *c_queue::create_node(int data) {
   c_queue::node *p = NULL;
@@ -371,6 +422,45 @@ void print_adjacency_list(list **lists_pointer, int32_t size) {
     p = lists_pointer[head_index];
   }
 }
+
+void dfs_matrix(int32_t **G, int32_t start, int32_t *visited, int32_t size) {
+  visited[start] = 1;
+  printf("%d ", start + 1);
+  for (int i = 0; i < size; i++) {
+    if (G[start][i] == 1 and visited[i] == 0) {
+      dfs_matrix(G, i, visited, size);
+    }
+  }
+}
+void dfs_no_recursive(int32_t **G, int32_t start, int32_t *visited,
+                      int32_t size) {
+  c_stack s;
+  s.push(start);
+  visited[start] = 1;
+  while (s.head != NULL) {
+    start = s.head->data;
+    s.pop();
+    std::cout << start + 1 << ' ';
+    for (int i = 0; i < size; i++) {
+      if (G[start][i] == 1 and visited[i] == 0) {
+        s.push(i);
+        visited[i] = 1;
+      }
+    }
+  }
+}
+void dfs_list(list **l, int32_t start, int32_t *visited, int32_t size) {
+  list *head = l[start];
+  visited[start] = 1;
+  printf("%d ", start + 1);
+  while (head != NULL) {
+    if (visited[head->index - 1] == 0) {
+      dfs_list(l, head->index - 1, visited, size);
+    }
+    head = head->next;
+  }
+}
+
 void bfs_matrix(int32_t **G, int32_t size, int32_t *visited, int32_t v) {
   double start = clock(), stop = 0;
   std::queue<int32_t> q;
@@ -444,7 +534,7 @@ void bfsd_matrix(int32_t **G, int32_t v, int32_t size, int32_t *dist) {
   while (!q.empty()) {
     v = q.front();
     q.pop();
-    std::cout << v + 1 << '\t';
+    std::cout << v + 1 << ' ';
     for (int i = 0; i < size; i++) {
       if (G[v][i] == 1 and dist[i] == -1) {
         q.push(i);
@@ -463,7 +553,7 @@ void bfsd_list(list **l, int32_t v, int32_t size, int32_t *dist) {
   while (!q.empty()) {
     v = q.front();
     q.pop();
-    std::cout << v + 1 << '\t';
+    std::cout << v + 1 << ' ';
     while (head != NULL) {
       if (dist[head->index - 1] == -1) {
         q.push(head->index - 1);
