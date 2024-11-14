@@ -54,7 +54,7 @@ void c_queue::pop() {
 }
 
 int32_t **generate_adjacency_matrix(int32_t matrix_size) {
-  // srand(time(NULL));
+  srand(time(NULL));
   if (matrix_size <= 0) {
     return NULL;
   }
@@ -436,8 +436,6 @@ void c_bfs(int32_t **G, int32_t size, int32_t *visited, int32_t v) {
   stop = clock();
   printf("\nВремя обхода графа: %lf", (stop - start) / 1000);
 }
-
-
 
 void bfsd_matrix(int32_t **G, int32_t v, int32_t size, int32_t *dist) {
   std::queue<int> q;

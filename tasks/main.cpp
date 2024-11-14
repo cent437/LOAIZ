@@ -1,4 +1,5 @@
 #include "../graph.h"
+#include <cstdio>
 
 int main() {
   int **G = NULL, *visited = NULL, *dist = NULL, size = 0, vertex = 0;
@@ -16,15 +17,34 @@ int main() {
 
   visited = (int *)calloc(size, sizeof(int));
   dist = (int *)calloc(size, sizeof(int));
-  for (int i = 0; i < size; i++)
+  for (int i = 0; i < size; i++) {
     dist[i] = -1;
+    visited[i] = 0;
+  }
 
   puts("Введите стартовую вершину:");
   scanf("%d", &vertex);
-
+  puts("===================== Лабораторная работа №8 =======================");
+  puts(
+      "Поиск в ширину по матрице смежности с использованием контейнера queue:");
+  bfs_matrix(G, size, visited, vertex - 1);
   putchar(10);
-  puts("Поиск расстояний по матрице смежности с использованим C++ контейнера "
-       "queue:");
+  for (int i = 0; i < size; i++)
+    visited[i] = 0;
+
+  puts("Поиск в ширину по списку смежности с использованием контейнера queue:");
+  bfsd_list(l, vertex - 1, size, dist);
+  putchar(10);
+  for (int i = 0; i < size; i++)
+    visited[i] = 0;
+
+  puts("Поиск в ширину с использованием собственного класса очереди:");
+  c_bfs(G, size, visited, vertex - 1);
+  putchar(10);
+  for (int i = 0; i < size; i++)
+    visited[i] = 0;
+  puts("=====================Лабораторная работа №9=======================");
+  puts("Поиск расстояний по матрице смежности:");
   bfsd_matrix(G, vertex - 1, size, dist);
   for (int i = 0; i < size; i++)
     dist[i] = -1;
