@@ -2,6 +2,7 @@
  * Библиотека для  работы с графами.
  */
 
+#include <cstddef>
 #include <iso646.h>
 #include <stdint.h>
 #include <stdio.h>
@@ -19,6 +20,19 @@ typedef struct adjacency_list {
   struct adjacency_list *prev;
 
 } list;
+
+class c_queue {
+public:
+  typedef struct node {
+    struct node *next;
+    struct node *prev;
+    int data;
+  } node;
+  node *head = NULL, *tail = NULL;
+  node *create_node(int data);
+  void push(int data);
+  void pop();
+};
 
 /* Генерация матрицы смежности размером matrix_size. */
 extern int32_t **generate_adjacency_matrix(int32_t matrix_size);
@@ -76,3 +90,17 @@ extern void bfs_matrix(int32_t **G, int32_t size, int32_t *visited, int32_t v);
 
 /* Обход в ширину по списку смежности. */
 extern void bfs_list(list **l, int32_t size, int32_t *visited, int32_t v);
+
+/* Обход в ширину с использованием собственной очереди. */
+extern void c_bfs(int32_t **G, int32_t size, int32_t *visited, int32_t v);
+
+/* Поиск расстояний методом поиска в ширину по матрице смежности */
+extern void bfsd_matrix(int32_t **G, int32_t v, int32_t size, int32_t *dist);
+
+/* Поиск расстояний методом поиска в ширину в списке смежности с использованием
+ * контейнера queue */
+extern void bfsd_list(list **l, int32_t v, int32_t size, int32_t *dist);
+
+/* Поиск расстояний методом поиска в ширину в списке смежности с использованием
+ * собственного класса очереди */
+extern void c_bfsd_list(list **l, int32_t v, int32_t size, int32_t *dist);

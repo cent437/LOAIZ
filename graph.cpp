@@ -1,8 +1,57 @@
 #include "graph.h"
 #include <cstddef>
+#include <cstdint>
 #include <ctime>
 #include <iostream>
 #include <queue>
+
+c_queue::node *c_queue::create_node(int data) {
+  c_queue::node *p = NULL;
+  p = (c_queue::node *)malloc(sizeof(c_queue::node));
+  if (p == NULL) {
+    puts("Error");
+    exit(1);
+  }
+  p->data = data;
+  p->next = NULL;
+  return p;
+}
+void c_queue::push(int data) {
+  c_queue::node *p = NULL;
+  p = create_node(data);
+  if (this->head == NULL && p != NULL) {
+    this->head = p;
+    this->tail = p;
+  } else if (this->head != NULL && p != NULL) {
+    this->head->prev = p;
+    p->next = head;
+    this->head = p;
+  }
+  return;
+}
+void c_queue::pop() {
+  c_queue::node *p = this->head;
+  c_queue::node *prv;
+  if (this->head == NULL) // Если список пуст, возвращаемся
+    return;
+  while (p != this->tail) // Проход до последнего элемента списка с
+                          // отслеживанием предпоследнего
+  {
+    prv = p;
+    p = p->next;
+  }
+
+  if (this->head == this->tail) // Проверка на то, что в списке 1 элемент
+  {
+    this->head = NULL; // Обнуляем голову и хвост
+    this->tail = NULL;
+    return;
+  }
+  free(p);
+  prv->next = NULL;
+  this->tail = prv;
+  return;
+}
 
 int32_t **generate_adjacency_matrix(int32_t matrix_size) {
   // srand(time(NULL));
@@ -356,6 +405,97 @@ void bfs_list(list **l, int32_t size, int32_t *visited, int32_t v) {
       if (visited[head->index - 1] == 0) {
         q.push(head->index - 1);
         visited[head->index - 1] = 1;
+      }
+      /* Отслеживание предыдущего элемента для перехода в другой список смежных
+       * вершин. */
+      prv = head;
+      head = head->next;
+    }
+    /* Переход в другой список смежных вершин. */
+    head = l[prv->index - 1];
+  }
+}
+
+void c_bfs(int32_t **G, int32_t size, int32_t *visited, int32_t v) {
+  double start = 0, stop = 0;
+  c_queue q;
+  start = clock();
+  q.push(v);
+  visited[v] = 1;
+  while (q.head != NULL && q.tail != NULL) {
+    v = q.tail->data; // q.front();
+    q.pop();
+    printf("%d ", v + 1);
+    for (int i = 0; i < size; i++) {
+      if (G[v][i] == 1 && visited[i] == 0) {
+        q.push(i);
+        visited[i] = 1;
+      }
+    }
+  }
+  stop = clock();
+  printf("\nВремя обхода графа: %lf", (stop - start) / 1000);
+}
+
+
+
+void bfsd_matrix(int32_t **G, int32_t v, int32_t size, int32_t *dist) {
+  std::queue<int> q;
+  q.push(v);
+  dist[v] = 0;
+  while (!q.empty()) {
+    v = q.front();
+    q.pop();
+    std::cout << v + 1 << '\t';
+    for (int i = 0; i < size; i++) {
+      if (G[v][i] == 1 and dist[i] == -1) {
+        q.push(i);
+        dist[i] = dist[v] + 1;
+      }
+    }
+  }
+}
+void bfsd_list(list **l, int32_t v, int32_t size, int32_t *dist) {
+  std::queue<int> q;
+  list *prv = NULL;
+  list *head = NULL;
+  q.push(v);
+  dist[v] = 0;
+  head = l[v];
+  while (!q.empty()) {
+    v = q.front();
+    q.pop();
+    std::cout << v + 1 << '\t';
+    while (head != NULL) {
+      if (dist[head->index - 1] == -1) {
+        q.push(head->index - 1);
+        dist[head->index - 1] = dist[v] + 1;
+      }
+      /* Отслеживание предыдущего элемента для перехода в другой список смежных
+       * вершин. */
+      prv = head;
+      head = head->next;
+    }
+    /* Переход в другой список смежных вершин. */
+    head = l[prv->index - 1];
+  }
+}
+
+void c_bfsd_list(list **l, int32_t v, int32_t size, int32_t *dist) {
+  c_queue q;
+  list *prv = NULL;
+  list *head = NULL;
+  q.push(v);
+  dist[v] = 0;
+  head = l[v];
+  while (q.head != NULL) {
+    v = q.tail->data;
+    q.pop();
+    std::cout << v + 1 << '\t';
+    while (head != NULL) {
+      if (dist[head->index - 1] == -1) {
+        q.push(head->index - 1);
+        dist[head->index - 1] = dist[v] + 1;
       }
       /* Отслеживание предыдущего элемента для перехода в другой список смежных
        * вершин. */
