@@ -105,7 +105,7 @@ void c_queue::pop() {
 }
 
 int32_t **generate_adjacency_matrix(int32_t matrix_size) {
-  srand(time(NULL));
+  // srand(time(NULL));
   if (matrix_size <= 0) {
     return NULL;
   }
@@ -434,18 +434,20 @@ void dfs_matrix(int32_t **G, int32_t start, int32_t *visited, int32_t size) {
 }
 void dfs_no_recursive(int32_t **G, int32_t start, int32_t *visited,
                       int32_t size) {
-  c_stack s;
-  s.push(start);
+  // c_stack s;
+  // s.push(start);
   visited[start] = 1;
-  while (s.head != NULL) {
-    start = s.head->data;
-    s.pop();
-    std::cout << start + 1 << ' ';
+  int sum_visited = 0;
+  // s.pop();
+  std::cout << start + 1 << ' ';
+  while (sum_visited < size) {
+    visited[start] = 1;
     for (int i = 0; i < size; i++) {
       if (G[start][i] == 1 and visited[i] == 0) {
-        s.push(i);
-        visited[i] = 1;
+        start = i;
+        std::cout << start + 1 << ' ';
       }
+      sum_visited += visited[i];
     }
   }
 }
