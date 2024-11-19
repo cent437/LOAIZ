@@ -108,7 +108,7 @@ void c_queue::pop() {
 }
 
 int32_t **generate_adjacency_matrix(int32_t matrix_size) {
-  srand(time(NULL));
+  // srand(time(NULL));
   if (matrix_size <= 0) {
     return NULL;
   }
@@ -546,14 +546,14 @@ void bfs_matrix(int32_t **G, int32_t size, int32_t *visited, int32_t v) {
   printf("\nВремя обхода графа: %lf", (stop - start) / 1000);
 }
 void bfs_list(list **l, int32_t size, int32_t *visited, int32_t v) {
-  std::queue<int32_t> q;
+  c_queue q;
   list *prv = NULL;
   q.push(v);
   visited[v] = 1;
   /* Переход в стартовый список смежных вершин. */
   list *head = l[v];
-  while (!q.empty()) {
-    v = q.front();
+  while (q.head != NULL) {
+    v = q.tail->data;
     q.pop();
     printf("%d ", v + 1);
     while (head != NULL) {
