@@ -601,7 +601,7 @@ void bfsd_matrix(int32_t **G, int32_t v, int32_t size, int32_t *dist) {
     q.pop();
     printf("%d ", v + 1);
     for (int i = 0; i < size; i++) {
-      if (G[v][i] >= 1 and dist[i] == -1) {
+      if (G[v][i] >= 1 && dist[i] == -1) {
         q.push(i);
         dist[i] = dist[v] + G[v][i];
       }
