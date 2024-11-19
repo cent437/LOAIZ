@@ -3,6 +3,7 @@
  */
 
 #include <cstddef>
+#include <cstdint>
 #include <iso646.h>
 #include <stdint.h>
 #include <stdio.h>
@@ -16,6 +17,7 @@
  */
 typedef struct adjacency_list {
   int32_t index;
+  int32_t weight;
   struct adjacency_list *next;
   struct adjacency_list *prev;
 
@@ -41,13 +43,18 @@ public:
     int data;
   } node;
   node *head = NULL, *tail = NULL;
-  node *create_node(int data);
+  node *create_node(int32_t data);
   void push(int data);
   void pop();
 };
 
 /* Генерация матрицы смежности размером matrix_size. */
 extern int32_t **generate_adjacency_matrix(int32_t matrix_size);
+
+/* Генерация матрицы смежности для взвешенного графа */
+extern int32_t **generate_adjacency_matrix_weight(int32_t matrix_size);
+extern int32_t **generate_adjacency_matrix_orient(int32_t matrix_size);
+extern int32_t **generate_adjacency_matrix_orient_weight(int32_t matrix_size);
 
 /* Выделение памяти под матрицу инцидентности размером matrix_size. */
 extern int32_t **generate_incident_matrix(int32_t rows, int32_t cols);
@@ -86,10 +93,11 @@ extern int32_t **xor_G(int32_t **G1, int32_t **G2, int32_t size_G1,
                        int32_t size_G2, int32_t *size_Gtemp);
 
 /* Выделение памяти под новый узел. */
-extern list *create_node(int32_t data);
+extern list *create_node(int32_t data, int32_t weight);
 
 /* Запись смежной вершины в список смежности. */
-extern void push(list **lists_pointer, int32_t data, int32_t head_index);
+extern void push(list **lists_pointer, int32_t data, int32_t weight,
+                 int32_t head_index);
 
 /* Создание списка смежности на основе матрицы смежности. */
 extern list **create_adjacency_list(int32_t **G, int32_t size);
@@ -126,3 +134,6 @@ extern void bfsd_list(list **l, int32_t v, int32_t size, int32_t *dist);
 /* Поиск расстояний методом поиска в ширину в списке смежности с использованием
  * собственного класса очереди */
 extern void c_bfsd_list(list **l, int32_t v, int32_t size, int32_t *dist);
+
+/* Вывод диаметра и радиуса взвешенного графа. */
+extern void diameter_radius(int32_t **G_weight, int32_t size);
