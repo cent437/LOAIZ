@@ -479,7 +479,7 @@ void print_adjacency_list(list **lists_pointer, int32_t size) {
   for (int32_t i = 0; i < size; i++) {
     printf("%d:\t", head_index + 1);
     while (p) {
-      printf("(v:%d) (w:%d)\t", p->index, p->weight);
+      printf("%d\t", p->index);
       p = p->next;
     }
     putchar('\n');
