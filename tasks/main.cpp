@@ -1,14 +1,32 @@
 #include "../graph.h"
+#include <cstddef>
 #include <cstdio>
-
-int main() {
+#include <cstdlib>
+#include <cstring>
+int main(int argc, char *argv[]) {
   int **G = NULL, *visited = NULL, *dist = NULL, size = 0, vertex = 0;
   list **l = NULL;
   puts("Введите размер матрицы смежности:");
   scanf("%d", &size);
-  G = generate_adjacency_matrix(size);
-  l = create_adjacency_list(G, size);
-
+  if (argc == 1) {
+    G = generate_adjacency_matrix(size);
+    l = create_adjacency_list(G, size);
+  } else if (argc > 1) {
+    for (int i = 0; i < argc; i++) {
+      if (strcmp(argv[i], "-weight") == 0) {
+        G = generate_adjacency_matrix_weight(size);
+        l = create_adjacency_list(G, size);
+      }
+      if (strcmp(argv[i], "-orient") == 0) {
+        G = generate_adjacency_matrix_orient(size);
+        l = create_adjacency_list(G, size);
+      }
+      if (strcmp(argv[i], "-orient_weight") == 0) {
+        G = generate_adjacency_matrix_orient_weight(size);
+        l = create_adjacency_list(G, size);
+      }
+    }
+  }
   puts("Матрица смежности для графа G:");
   print_adjacency_matrix(G, size);
 
@@ -21,54 +39,13 @@ int main() {
     dist[i] = -1;
     visited[i] = 0;
   }
-
   puts("Введите стартовую вершину:");
   scanf("%d", &vertex);
-  puts("\n===================== Лабораторная работа №7 =====================");
-
-  puts("Обход в глубину по матрице смежности:");
-  dfs_matrix(G, vertex - 1, visited, size);
-  putchar(10);
-  for (int i = 0; i < size; i++)
-    visited[i] = 0;
-
-  puts("Обход в глубину по списку смежности:");
-  dfs_list(l, vertex - 1, visited, size);
-  putchar(10);
-  for (int i = 0; i < size; i++)
-    visited[i] = 0;
-
-  puts("Обход в глубину без рекурсии :");
-  dfs_no_recursive(G, vertex - 1, visited, size);
-  for (int i = 0; i < size; i++)
-    visited[i] = 0;
-
-  puts("\n===================== Лабораторная работа №8 =====================");
-  puts(
-      "Обход в ширину по матрице смежности с использованием контейнера queue:");
-  bfs_matrix(G, size, visited, vertex - 1);
-  putchar(10);
-  for (int i = 0; i < size; i++)
-    visited[i] = 0;
-
-  puts("Обход в ширину по списку смежности с использованием контейнера queue:");
-  bfs_list(l, size, visited, vertex - 1);
-  putchar(10);
-  for (int i = 0; i < size; i++)
-    visited[i] = 0;
-
-  puts("Обход в ширину с использованием собственного класса очереди:");
-  c_bfs(G, size, visited, vertex - 1);
-  putchar(10);
-  for (int i = 0; i < size; i++)
-    visited[i] = 0;
-
-  puts("===================== Лабораторная работа №9 =====================");
-  puts("---Поиск расстояний по матрице смежности:");
+  puts("Поиск расстояний по матрице смежности:");
   bfsd_matrix(G, vertex - 1, size, dist);
-  printf("\nВектор расстояний от вершины %d до других смежных вершин\n",
-         vertex);
 
+  printf("\nВектор расстояний от вершины %d до других смежных вершин:\n",
+         vertex);
   for (int i = 0; i < size; i++)
     printf("%d\t", i + 1);
   putchar(10);
@@ -76,11 +53,12 @@ int main() {
     printf("%d\t", dist[i]);
     dist[i] = -1;
   }
-  puts("\n---Поиск расстояний по списку смежности:");
+  putchar(10);
+  puts("Поиск расстояний по списку смежности взвешенного графа:");
   bfsd_list(l, vertex - 1, size, dist);
-
-  printf("\nВектор расстояний от вершины %d до других смежных вершин\n",
+  printf("\nВектор расстояний от вершины %d до других смежных вершин:\n",
          vertex);
+
   for (int i = 0; i < size; i++)
     printf("%d\t", i + 1);
   putchar(10);
@@ -88,5 +66,15 @@ int main() {
     printf("%d\t", dist[i]);
     dist[i] = -1;
   }
+  putchar(10);
+  if (argc > 1) {
+    for (int i = 0; i < argc; i++) {
+      if (strcmp(argv[i], "-weight") == 0 ||
+          strcmp(argv[i], "-orient_weight") == 0) {
+        diameter_radius(G, size);
+      }
+    }
+  }
+
   return 0;
 }
