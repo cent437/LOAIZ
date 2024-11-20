@@ -599,7 +599,6 @@ void bfsd_matrix(int32_t **G, int32_t v, int32_t size, int32_t *dist) {
   while (q.head != NULL && q.tail != NULL) {
     v = q.tail->data;
     q.pop();
-    printf("%d ", v + 1);
     for (int i = 0; i < size; i++) {
       if (G[v][i] >= 1 && dist[i] == -1) {
         q.push(i);
@@ -666,14 +665,32 @@ void c_bfsd_list(list **l, int32_t v, int32_t size, int32_t *dist) {
 }
 
 void diameter_radius(int32_t **G_weight, int32_t size) {
-  int *e = (int *)calloc(size, sizeof(int));
-  int *peripheral_v_set = NULL, *center_v_set = NULL;
-  int R = 0, D = 0;
+
+  /* Создание матрицы расстояний. */
+  int **dist_matrix = (int **)calloc(size, sizeof(int *));
+  int *e = NULL, *peripheral_v_set = NULL, *center_v_set = NULL, R = 0, D = 0;
+
+  for (int i = 0; i < size; i++) {
+    dist_matrix[i] = (int *)calloc(size, sizeof(int));
+    for (int j = 0; j < size; j++)
+      dist_matrix[i][j] = -1;
+  }
+
+  /* Поиск расстояний для каждой вершины графа. */
+  for (int i = 0; i < size; i++) {
+    bfsd_matrix(G_weight, i, size, dist_matrix[i]);
+  }
+  puts("Матрица расстояний: ");
+  print_adjacency_matrix(dist_matrix, size);
+
+  /* Выделение памяти под массив эксцентриситетов. */
+  e = (int *)calloc(size, sizeof(int));
+
   /* Поиск эксцентриситетов графа. */
   for (int i = 0; i < size; i++)
     for (int j = 0; j < size; j++)
-      if (e[i] < G_weight[i][j])
-        e[i] = G_weight[i][j];
+      if (e[i] < dist_matrix[i][j])
+        e[i] = dist_matrix[i][j];
 
   R = e[0];
   /* Поиск радиуса и диаметра. */
@@ -685,7 +702,7 @@ void diameter_radius(int32_t **G_weight, int32_t size) {
   }
   int n = 0, k = 0;
 
-  /* Вычисление мощности подмножества центральных и периферийных вершин. */
+  /* Вычисление размера массивов центральных и периферийных вершин. */
   for (int i = 0; i < size; i++) {
     printf("e(%d) - %d\n", i + 1, e[i]);
     if (e[i] == D)
@@ -695,9 +712,10 @@ void diameter_radius(int32_t **G_weight, int32_t size) {
   }
   putchar(10);
   printf("Радиус: %d\nДиаметр: %d\n", R, D);
-
+  /* Выделение памяти под массивы центральных и периферийных вершин. */
   peripheral_v_set = (int *)calloc(n, sizeof(int));
   center_v_set = (int *)calloc(k, sizeof(int));
+
   n = 0, k = 0;
   for (int i = 0; i < size; i++) {
     if (e[i] == D) {
@@ -705,7 +723,7 @@ void diameter_radius(int32_t **G_weight, int32_t size) {
       n++;
     }
     if (e[i] == R) {
-      center_v_set[i] = i + 1;
+      center_v_set[k] = i + 1;
       k++;
     }
   }
@@ -721,6 +739,11 @@ void diameter_radius(int32_t **G_weight, int32_t size) {
   for (int i = 0; i < k; i++)
     printf(" %d ", center_v_set[i]);
   puts("}");
+
+  for (int i = 0; i < size; i++) {
+    free(dist_matrix[i]);
+  }
+  free(dist_matrix);
   free(peripheral_v_set);
   free(center_v_set);
 }
