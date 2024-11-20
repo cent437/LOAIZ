@@ -9,7 +9,7 @@ int main(int argc, char *argv[]) {
   puts("Введите размер матрицы смежности:");
   scanf("%d", &size);
   if (argc == 1) {
-    G = generate_adjacency_matrix(size);
+    G = generate_adjacency_matrix_orient(size);
     l = create_adjacency_list(G, size);
   } else if (argc > 1) {
     for (int i = 0; i < argc; i++) {
@@ -70,9 +70,8 @@ int main(int argc, char *argv[]) {
   if (argc > 1) {
     for (int i = 0; i < argc; i++) {
       if (strcmp(argv[i], "-weight") == 0 ||
-          strcmp(argv[i], "-orient_weight") == 0) {
+          strcmp(argv[i], "-orient_weight") == 0)
         diameter_radius(G, size);
-      }
     }
   }
 

@@ -150,7 +150,7 @@ int32_t **generate_adjacency_matrix_weight(int32_t matrix_size) {
 }
 
 int32_t **generate_adjacency_matrix_orient(int32_t matrix_size) {
-  srand(time(NULL));
+  srand(1);
   if (matrix_size <= 0) {
     return NULL;
   }
@@ -620,6 +620,7 @@ void bfsd_list(list **l, int32_t v, int32_t size, int32_t *dist) {
     v = q.front();
     q.pop();
     printf("%d ", v + 1);
+
     while (head != NULL) {
       if (dist[head->index - 1] == -1) {
         q.push(head->index - 1);
@@ -631,6 +632,9 @@ void bfsd_list(list **l, int32_t v, int32_t size, int32_t *dist) {
       head = head->next;
     }
     /* Переход в другой список смежных вершин. */
+    if (l[v] == NULL)
+      return;
+
     head = l[prv->index - 1];
   }
 }
