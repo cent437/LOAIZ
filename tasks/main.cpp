@@ -54,26 +54,6 @@ int main() {
 
   puts("Введите стартовую вершину:");
   scanf("%d", &vertex);
-  puts("\n===================== Лабораторная работа №7 =====================");
-
-  puts("Обход в глубину по матрице смежности:");
-  dfs_matrix(G, vertex - 1, visited, size);
-  putchar(10);
-  for (int i = 0; i < size; i++)
-    visited[i] = 0;
-
-  puts("Обход в глубину по списку смежности:");
-  dfs_list(l, vertex - 1, visited, size);
-  putchar(10);
-  for (int i = 0; i < size; i++)
-    visited[i] = 0;
-
-  puts("Обход в глубину без рекурсии :");
-  dfs_no_recursive(G, vertex - 1, visited, size);
-  for (int i = 0; i < size; i++)
-    visited[i] = 0;
-
-  puts("\n===================== Лабораторная работа №8 =====================");
   puts(
       "Обход в ширину по матрице смежности с использованием контейнера queue:");
   bfs_matrix(G, size, visited, vertex - 1);
@@ -96,21 +76,5 @@ int main() {
   puts("В результате оценки времени обхода в ширину контейнер queue работает "
        "быстрее на больших графах, а класс очереди на малых графах.");
 
-  puts("===================== Лабораторная работа №9 =====================");
-  puts("---Поиск расстояний по матрице смежности:");
-  bfsd_matrix(G, vertex - 1, size, dist);
-  printf("\nВектор расстояний от вершины %d до других смежных вершин\n",
-         vertex);
-  sort(dist, size);
-  for (int i = 0; i < size; i++)
-    dist[i] = -1;
-
-  puts("\n---Поиск расстояний по списку смежности:");
-  bfsd_list(l, vertex - 1, size, dist);
-  printf("\nВектор расстояний от вершины %d до других смежных вершин\n",
-         vertex);
-  sort(dist, size);
-  for (int i = 0; i < size; i++)
-    dist[i] = -1;
   return 0;
 }
