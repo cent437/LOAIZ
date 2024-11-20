@@ -66,16 +66,15 @@ int main(int argc, char *argv[]) {
     printf("%d\t", dist[i]);
     dist[i] = -1;
   }
-  
+
   putchar(10);
-  diameter_radius(G, size);
-  // if (argc > 1) {
-  //   for (int i = 0; i < argc; i++) {
-  //     if (strcmp(argv[i], "-weight") == 0 ||
-  //         strcmp(argv[i], "-orient_weight") == 0)
-        
-  //   }
-  // }
+  if (argc > 1) {
+    for (int i = 0; i < argc; i++) {
+      if (strcmp(argv[i], "-weight") == 0 ||
+          strcmp(argv[i], "-orient_weight") == 0)
+        diameter_radius(G, size);
+    }
+  }
 
   return 0;
 }
