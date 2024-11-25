@@ -20,18 +20,6 @@ typedef struct adjacency_list {
   struct adjacency_list *prev;
 
 } list;
-class c_stack {
-public:
-  typedef struct stack {
-    struct stack *next;
-    struct stack *prev;
-    int data;
-  } stack;
-  stack *head = NULL, *tail = NULL;
-  stack *create_node(int data);
-  void push(int data);
-  void pop();
-};
 class c_queue {
 public:
   typedef struct node {
