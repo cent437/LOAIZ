@@ -6,6 +6,7 @@
 #include <ctime>
 #include <iostream>
 #include <queue>
+#include <stack>
 c_stack::stack *c_stack::create_stack_node(int data) {
   stack *p = NULL;
   p = (stack *)malloc(sizeof(stack));
@@ -500,17 +501,18 @@ void dfs_matrix(int32_t **G, int32_t start, int32_t *visited, int32_t size) {
 void dfs_no_recursive(int32_t **G, int32_t start, int32_t *visited,
                       int32_t size) {
 
+  std::stack<int32_t> s;
+  s.push(start);
   visited[start] = 1;
-  int sum_visited = 0;
-  printf("%d ", start + 1);
-  while (sum_visited < size) {
-    visited[start] = 1;
-    for (int i = 0; i < size; i++) {
+  while (!s.empty()) {
+    start = s.top();
+    s.pop();
+    printf("%d ", start + 1);
+    for (int i = size; i > 0; i--) {
       if (G[start][i] == 1 and visited[i] == 0) {
-        start = i;
-        printf("%d ", start + 1);
+        s.push(i);
+        visited[i] = 1;
       }
-      sum_visited += visited[i];
     }
   }
 }
@@ -632,6 +634,21 @@ void bfsd_list(list **l, int32_t v, int32_t size, int32_t *dist) {
     }
     /* Переход в другой список смежных вершин. */
     head = l[prv->index - 1];
+  }
+}
+
+void dfsd_matrix(int32_t **G, int32_t v, int32_t size, int32_t *dist,
+                 int32_t *visited) {
+  visited[v] = 1;
+  // dist[v]++;
+  printf("%d ", v + 1);
+  for (int i = 0; i < size; i++) {
+
+    if (G[v][i] >= 1 and visited[i] == 0 and dist[i] == 0) {
+      // dist[v] = 0;
+      dist[v] += dist[i];
+      dfsd_matrix(G, i, size, dist, visited);
+    }
   }
 }
 

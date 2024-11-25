@@ -131,6 +131,9 @@ extern void bfsd_matrix(int32_t **G, int32_t v, int32_t size, int32_t *dist);
  * контейнера queue */
 extern void bfsd_list(list **l, int32_t v, int32_t size, int32_t *dist);
 
+extern void dfsd_matrix(int32_t **G, int32_t v, int32_t size, int32_t *dist,
+                        int32_t *visited);
+
 /* Поиск расстояний методом поиска в ширину в списке смежности с использованием
  * собственного класса очереди */
 extern void c_bfsd_list(list **l, int32_t v, int32_t size, int32_t *dist);

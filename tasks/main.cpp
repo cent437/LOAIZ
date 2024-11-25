@@ -68,6 +68,22 @@ int main() {
          vertex);
   sort(dist, size);
   for (int i = 0; i < size; i++)
+    dist[i] = 0;
+
+  puts("\n---Поиск расстояний по матрице смежности обходом в глубину:");
+  dfsd_matrix(G, vertex - 1, size, dist, visited);
+  printf("\nВектор расстояний от вершины %d до других смежных вершин\n",
+         vertex);
+  // sort(dist, size);
+  for (int i = 0; i < size; i++) {
+    printf("%d\t", i + 1);
+  }
+  putchar(10);
+
+  for (int i = 0; i < size; i++) {
+    printf("%d\t", dist[i]);
     dist[i] = -1;
+  }
+
   return 0;
 }
