@@ -116,6 +116,10 @@ int main() {
         break;
       }
       break;
+    case 8: /* Декартово произведение. */
+      G3 = decart_mul(G1, G2, size_G1, size_G2);
+      print_adjacency_matrix(G3, size_G1 * size_G2);
+      break;
     }
 
     putchar('\n');
@@ -127,6 +131,7 @@ int main() {
     puts("5. Выполнить пересечение двух графов.");
     puts("6. Выполнить кольцевую суммц двух графов.");
     puts("7. Создать список смежности.");
+    puts("8. Выполнить декартово произведение.");
     puts("0. Выход.");
     printf("-> ");
     scanf("%d", &ui_switch);

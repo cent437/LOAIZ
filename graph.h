@@ -58,7 +58,8 @@ extern int32_t **intersectionG(int32_t **G1, int32_t **G2, int32_t size_G1,
 /* Кольцевая сумма графов G1 и G2. */
 extern int32_t **xor_G(int32_t **G1, int32_t **G2, int32_t size_G1,
                        int32_t size_G2, int32_t *size_Gtemp);
-
+extern int32_t **decart_mul(int32_t **G1, int32_t **G2, int32_t size_G1,
+                            int32_t size_G2);
 /* Выделение памяти под новый узел. */
 extern list *create_node(int32_t data);
 

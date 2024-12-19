@@ -1,4 +1,5 @@
 #include "graph.h"
+
 #include <stdint.h>
 #include <stdio.h>
 
@@ -251,6 +252,58 @@ int32_t **xor_G(int32_t **G1, int32_t **G2, int32_t size_G1, int32_t size_G2,
     }
   }
   *size_Gtemp = sizemax;
+  return Gtemp;
+}
+
+int **KroneckerMul(int **A, int **B, int size_A, int size_B) {
+
+  int **C = generate_adjacency_matrix(size_A * size_B);
+  int m = size_A, n = size_A, p = size_B, q = size_B;
+
+  for (size_t i = 0; i < m; i++) {
+    for (size_t j = 0; j < n; j++) {
+      for (size_t k = 0; k < p; k++) {
+        for (size_t l = 0; l < q; l++) {
+          C[i * p + k][j * q + l] = A[i][j] * B[k][l];
+        }
+      }
+    }
+  }
+  return C;
+}
+int **generate_edin_matrix(int size) {
+
+  srand(time(NULL));
+  if (size <= 0) {
+    return NULL;
+  }
+  int32_t **E = (int32_t **)calloc(size, sizeof(int32_t *));
+  for (int32_t i = 0; i < size; i++) {
+    E[i] = (int32_t *)calloc(size, sizeof(int32_t));
+  }
+  for (int32_t i = 0; i < size; i++) {
+    for (int32_t j = 0; j < size; j++) {
+      E[i][j] = 0;
+    }
+    E[i][i] = 1;
+  }
+  return E;
+}
+
+int32_t **decart_mul(int32_t **G1, int32_t **G2, int32_t size_G1,
+                     int32_t size_G2) {
+  int32_t **E1 = generate_edin_matrix(size_G1);
+  int32_t **E2 = generate_edin_matrix(size_G2);
+  int32_t **G1_E2 = KroneckerMul(G1, E2, size_G1, size_G2);
+  int32_t **G2_E1 = KroneckerMul(G2, E1, size_G2, size_G1);
+  int32_t **Gtemp = (int **)calloc(size_G1 * size_G2, sizeof(int *));
+  for (size_t i = 0; i < size_G1 * size_G2; i++)
+    Gtemp[i] = (int *)calloc(size_G1 * size_G2, sizeof(int));
+  for (size_t i = 0; i < size_G1 * size_G2; i++) {
+    for (size_t j = 0; j < size_G1 * size_G2; j++) {
+      Gtemp[i][j] = G1_E2[i][j] & G2_E1[i][j];
+    }
+  }
   return Gtemp;
 }
 
